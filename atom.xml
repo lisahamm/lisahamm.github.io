@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-01-18T16:10:02-06:00</updated>
+  <updated>2015-01-18T16:18:33-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -27,7 +27,21 @@
     <link href="http://lisahamm.github.io/blog/2015/01/13/useful-keyboard-shortcuts/"/>
     <updated>2015-01-13T15:41:05-06:00</updated>
     <id>http://lisahamm.github.io/blog/2015/01/13/useful-keyboard-shortcuts</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>I’ve been working on improving the time it takes me to complete the Bowling Game Kata. One thing that has been helpful with this is learning keyboard shortcuts that facilitate easy movement throughout the text editor. I am currently coding in Sublime Text 2 on a MacBook. I found this webpage that lists several shortcuts. So far, the most useful have been:</p>
+
+<p>-Command + Option + left or right arrow key to move from one open file to the next</p>
+
+<p>-Command + Tab which allows you to move into another application running (this makes it easy to switch between Sublime and the Terminal)</p>
+
+<p>-Command + Enter creates a new line (and you don’t have to be at the end of the line to utilize this)</p>
+
+<p>-Shift + left or right arrow key will select text character by character</p>
+
+<p>-Shift + Command + right/left arrow key will select text from cursor to end of the line</p>
+
+<p>-Command + L selects entire line</p>
+
+<p>-Ctrl + Command + G to find and select all cases of a word/character  (this is useful if you want to change the name of either a variable or a method that appears several times in your text)</p>
 ]]></content>
   </entry>
   
