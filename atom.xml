@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-01-19T09:06:03-06:00</updated>
+  <updated>2015-01-19T16:55:46-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -27,63 +27,67 @@
 
 <p>Starting with the simplest case, the first test is written for scoring a gutter game:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it "can score a gutter game" do
-</span><span class='line'>  bowling_game = BowlingGame.new
-</span><span class='line'>  20.times {bowling_game.roll(0)}
-</span><span class='line'>  expect(bowling_game.score).to eq 0
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a gutter game&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">bowling_game</span> <span class="o">=</span> <span class="no">BowlingGame</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="mi">20</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">0</span><span class="p">)}</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Running rspec at this point results in a failing test:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Failure/Error: 20.times {bowling_game.roll(0)}
-</span><span class='line'>   NoMethodError:
-</span><span class='line'>     undefined method `roll'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Failure</span><span class="o">/</span><span class="ss">Error</span><span class="p">:</span> <span class="mi">20</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">0</span><span class="p">)}</span>
+</span><span class='line'>   <span class="ss">NoMethodError</span><span class="p">:</span>
+</span><span class='line'>     <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`roll&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Now that we have a failing unit test, we can abide by Uncle Bob&rsquo;s first Law of TDD, and write code to enable this test to pass. It is also important to remember the third law of TDD, which states, &ldquo;You are not allowed to write any more production code than is sufficient to pass the one failing unit test.&rdquo;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def roll(pins_down)
-</span><span class='line'>  pins_down
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="n">pins_down</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">pins_down</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def score
-</span><span class='line'>  0
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">def</span> <span class="nf">score</span>
+</span><span class='line'>  <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Running rspec now results in a passing test, so we can move on to testing the next simplest case: a game in which the player knocks down one pin per roll.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it "can score a simple game" do
-</span><span class='line'>  bowling_game = BowlingGame.new
-</span><span class='line'>  20.times {bowling_game.roll(1)}
-</span><span class='line'>  expect(bowling_game.score).to eq 20
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a simple game&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">bowling_game</span> <span class="o">=</span> <span class="no">BowlingGame</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="mi">20</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">1</span><span class="p">)}</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">20</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>As expected, running this test results in a failure since the code is not currently storing a running total of pins knocked down. Adding the following code will allow this test to pass. Keep in mind, sticking to the rules of TDD requires one to only add enough code to result in a passing test.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -94,22 +98,23 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def initialize
-</span><span class='line'>  @total = 0
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>  <span class="vi">@total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def roll(pins_down)
-</span><span class='line'>  @total += pins_down
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="n">pins_down</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@total</span> <span class="o">+=</span> <span class="n">pins_down</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def score
-</span><span class='line'>  @total
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">def</span> <span class="nf">score</span>
+</span><span class='line'>  <span class="vi">@total</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Now that both of the tests are passing, it&rsquo;s time for some refactoring.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -124,40 +129,42 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let(:bowling_game) {BowlingGame.new}
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span><span class="p">(</span><span class="ss">:bowling_game</span><span class="p">)</span> <span class="p">{</span><span class="no">BowlingGame</span><span class="o">.</span><span class="n">new</span><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>def roll_many(n, pins_down)
-</span><span class='line'>  n.times {bowling_game.roll(pins_down)}
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">roll_many</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">pins_down</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">n</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">pins_down</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>it "can score a gutter game" do
-</span><span class='line'>  roll_many(20, 0)
-</span><span class='line'>  expect(bowling_game.score).to eq 0
-</span><span class='line'>end
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a gutter game&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">roll_many</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>it "can score a simple game" do
-</span><span class='line'>  roll_many(20, 1)
-</span><span class='line'>  expect(bowling_game.score).to eq 20
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a simple game&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">roll_many</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">20</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The next text case is for scoring a game with a spare in it.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it "can score a game with a spare" do
-</span><span class='line'>  2.times {bowling_game.roll(5)}
-</span><span class='line'>  roll_many(18, 1)
-</span><span class='line'>  expect(bowling_game.score).to eq 29
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a game with a spare&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="mi">2</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">5</span><span class="p">)}</span>
+</span><span class='line'>  <span class="n">roll_many</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">29</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In order to score a game with a spare, we will now need a variable to keep track of the number of pins knocked down in each roll. The player will receive 10 points plus the number of pins knocked down during the first roll of the subsequent frame.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -179,47 +186,49 @@
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>attr_reader :rolls
-</span><span class='line'>def initialize
-</span><span class='line'>  @rolls = []
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">attr_reader</span> <span class="ss">:rolls</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>  <span class="vi">@rolls</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def roll(pins_down)
-</span><span class='line'>  @rolls &lt;&lt; pins_down
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="n">pins_down</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@rolls</span> <span class="o">&lt;&lt;</span> <span class="n">pins_down</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def score
-</span><span class='line'>  total = 0
-</span><span class='line'>  i = 0
-</span><span class='line'>  while i &lt; rolls.length
-</span><span class='line'>    if rolls[i] + rolls[i+1] == 10
-</span><span class='line'>      total += 10 + rolls[i+2]
-</span><span class='line'>    else
-</span><span class='line'>      total += rolls[i] + rolls[i+1]
-</span><span class='line'>    end
-</span><span class='line'>    i += 2
-</span><span class='line'>  end
-</span><span class='line'>  total
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">def</span> <span class="nf">score</span>
+</span><span class='line'>  <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rolls</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="mi">10</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">total</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Now that all of our tests pass, we move on to test the case of scoring a game with a strike.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it "can score a game with a strike" do
-</span><span class='line'>  bowling_game.roll(10)
-</span><span class='line'>  roll_many(18, 1)
-</span><span class='line'>  expect(bowling_game.score).to eq 30
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a game with a strike&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">roll_many</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">30</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>After running rspec and watching this test fail, the score method is modified to account for the case of a strike.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -236,28 +245,29 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def score
-</span><span class='line'>  total = 0
-</span><span class='line'>  i = 0
-</span><span class='line'>  while i &lt; rolls.length
-</span><span class='line'>    if rolls[i] == 10
-</span><span class='line'>      total += 10 + rolls[i+1] + rolls[i+2]
-</span><span class='line'>      i += 1
-</span><span class='line'>    elsif rolls[i] + rolls[i+1] == 10
-</span><span class='line'>      total += 10 + rolls[i+2]
-</span><span class='line'>      i += 2
-</span><span class='line'>    else
-</span><span class='line'>      total += rolls[i] + rolls[i+1]
-</span><span class='line'>      i += 2
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>  total
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">score</span>
+</span><span class='line'>  <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rolls</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">10</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">elsif</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="mi">10</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">total</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Running rspec at this point will show all of our tests currently pass. Since we are in the green, it is a good point to consider refactoring the code. We can add clearly named methods to check for a strike and a spare. We can also add methods to return the bonus points a player earns when scoring both a strike and a spare, and also the sum of the points earned in a frame without a strike or spare.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -294,88 +304,92 @@
 <span class='line-number'>35</span>
 <span class='line-number'>36</span>
 <span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def score
-</span><span class='line'>  total = 0
-</span><span class='line'>  i = 0
-</span><span class='line'>  while i &lt; rolls.length
-</span><span class='line'>    if strike?(i)
-</span><span class='line'>      total += 10 + strike_bonus(i)
-</span><span class='line'>      i += 1
-</span><span class='line'>    elsif spare?(i)
-</span><span class='line'>      total += 10 + spare_bonus(i)
-</span><span class='line'>      i += 2
-</span><span class='line'>    else
-</span><span class='line'>      total += sum_of_balls_in_frame(i)
-</span><span class='line'>      i += 2
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>  total
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">score</span>
+</span><span class='line'>  <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rolls</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">strike?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">strike_bonus</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">elsif</span> <span class="n">spare?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">spare_bonus</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="n">sum_of_balls_in_frame</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">total</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def strike?(i)
-</span><span class='line'>  rolls[i] == 10
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">strike?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">10</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def spare?(i)
-</span><span class='line'>  rolls[i] + rolls[i+1] == 10
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">spare?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="mi">10</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def strike_bonus(i)
-</span><span class='line'>  rolls[i+1] + rolls[i+2]
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">strike_bonus</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def spare_bonus(i)
-</span><span class='line'>  rolls[i+2]
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">spare_bonus</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def sum_of_balls_in_frame(i)
-</span><span class='line'>  rolls[i] + rolls[i+1]
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">def</span> <span class="nf">sum_of_balls_in_frame</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">rolls</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>These explicitly named methods facilitate reading and understanding of the code with ease for anyone who may try to digest it. Following this idea, the spec file can also be refactored to include methods for rolling a spare and rolling a strike.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def roll_spare
-</span><span class='line'>  2.times {bowling_game.roll(5)}
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">roll_spare</span>
+</span><span class='line'>  <span class="mi">2</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">5</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def roll_strike
-</span><span class='line'>  bowling_game.roll(10)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">def</span> <span class="nf">roll_strike</span>
+</span><span class='line'>  <span class="n">bowling_game</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>After completing this refactoring, it is now time to tackle the last test case: a perfect game of bowling. This consists of 12 strikes and results in a score of 300 points.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it "can score a perfect game" do
-</span><span class='line'>  12.times {roll_strike}
-</span><span class='line'>  expect(bowling_game.score).to eq 300
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;can score a perfect game&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="mi">12</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="n">roll_strike</span><span class="p">}</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">300</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Running rspec now results in the following error:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Failure/Error: expect(bowling_game.score).to eq 300
-</span><span class='line'>TypeError:
-</span><span class='line'>  nil can't be coerced into Fixnum</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Failure</span><span class="o">/</span><span class="ss">Error</span><span class="p">:</span> <span class="n">expect</span><span class="p">(</span><span class="n">bowling_game</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">300</span>
+</span><span class='line'><span class="ss">TypeError</span><span class="p">:</span>
+</span><span class='line'>  <span class="kp">nil</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">be</span> <span class="n">coerced</span> <span class="n">into</span> <span class="no">Fixnum</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In order to make this test pass, the score method needs a variable to keep track of the frame number. The while loop within this method needs to execute while the frame number is less than 10.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -394,25 +408,26 @@
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def score
-</span><span class='line'>  total = 0
-</span><span class='line'>  i = 0
-</span><span class='line'>  frame = 0
-</span><span class='line'>  while frame &lt; 10
-</span><span class='line'>    if strike?(i)
-</span><span class='line'>      total += 10 + strike_bonus(i)
-</span><span class='line'>      i += 1
-</span><span class='line'>    elsif spare?(i)
-</span><span class='line'>      total += 10 + spare_bonus(i)
-</span><span class='line'>      i += 2
-</span><span class='line'>    else
-</span><span class='line'>      total += sum_of_balls_in_frame(i)
-</span><span class='line'>      i += 2
-</span><span class='line'>    end
-</span><span class='line'>    frame += 1
-</span><span class='line'>  end
-</span><span class='line'>  total
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">score</span>
+</span><span class='line'>  <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">frame</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">frame</span> <span class="o">&lt;</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">strike?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">strike_bonus</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">elsif</span> <span class="n">spare?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">spare_bonus</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">total</span> <span class="o">+=</span> <span class="n">sum_of_balls_in_frame</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">frame</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">total</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>You can find the complete kata on my <a href="https://github.com/lisahamm/bowling_game_kata">github</a>. After completing this kata over and over again, I am happy to report that I can now do it in close to 10 minutes and my overall agility on the keyboard has improved immensely.</p>
