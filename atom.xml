@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-01-18T23:15:25-06:00</updated>
+  <updated>2015-01-19T09:06:03-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -424,24 +424,24 @@
     <link href="http://lisahamm.github.io/blog/2015/01/13/useful-keyboard-shortcuts/"/>
     <updated>2015-01-13T15:41:05-06:00</updated>
     <id>http://lisahamm.github.io/blog/2015/01/13/useful-keyboard-shortcuts</id>
-    <content type="html"><![CDATA[<p>I’ve been working on improving the time it takes me to complete the Bowling Game Kata. One thing that has been helpful with this is learning keyboard shortcuts that facilitate easy movement throughout the text editor. I am currently coding in Sublime Text 2 on a MacBook. I found this webpage that lists several shortcuts. So far, the most useful have been:</p>
+    <content type="html"><![CDATA[<p>I’ve been working on improving the time it takes me to complete the Bowling Game Kata. One thing that has been helpful with this is learning keyboard shortcuts that facilitate easy movement throughout the text editor. I am currently coding in Sublime Text 2 on a MacBook. I found <a href="http://sublime-text-unofficial-documentation.readthedocs.org/en/latest/reference/keyboard_shortcuts_osx.html">this webpage</a> that lists several shortcuts. So far, the most useful have been:</p>
 
 <!--more-->
 
 
-<p>-Command + Option + left or right arrow key to move from one open file to the next</p>
+<p>-<strong>Command + Option + left or right arrow key</strong> to move from one open file to the next</p>
 
-<p>-Command + Tab which allows you to move into another application running (this makes it easy to switch between Sublime and the Terminal)</p>
+<p>-<strong>Command + Tab</strong> which allows you to move into another application running (this makes it easy to switch between Sublime and the Terminal)</p>
 
-<p>-Command + Enter creates a new line (and you don’t have to be at the end of the line to utilize this)</p>
+<p>-<strong>Command + Enter</strong> creates a new line (and you don’t have to be at the end of the line to utilize this)</p>
 
-<p>-Shift + left or right arrow key will select text character by character</p>
+<p>-<strong>Shift + left or right arrow key</strong> will select text character by character</p>
 
-<p>-Shift + Command + right/left arrow key will select text from cursor to end of the line</p>
+<p>-<strong>Shift + Command + right/left arrow key</strong> will select text from cursor to end of the line</p>
 
-<p>-Command + L selects entire line</p>
+<p>-<strong>Command + L</strong> selects entire line</p>
 
-<p>-Ctrl + Command + G to find and select all cases of a word/character  (this is useful if you want to change the name of either a variable or a method that appears several times in your text)</p>
+<p>-<strong>Ctrl + Command + G</strong> to find and select all cases of a word/character (this is useful if you want to change the name of either a variable or a method that appears several times in your text)</p>
 ]]></content>
   </entry>
   
@@ -450,12 +450,12 @@
     <link href="http://lisahamm.github.io/blog/2015/01/09/the-bowling-game-kata/"/>
     <updated>2015-01-09T15:40:05-06:00</updated>
     <id>http://lisahamm.github.io/blog/2015/01/09/the-bowling-game-kata</id>
-    <content type="html"><![CDATA[<p>Yesterday I sat down with my 8th Light mentor, Doug, and paired on the Bowling Game Kata and wrote it in Ruby. The general concept is to write a program capable of scoring a game of bowling and to use test driven development (TDD) in order to do so. A game of bowling is made up of 10 frames in which a player has two opportunities to knock down 10 pins. The player earns a score equal to the number of pins knocked down in each frame, but also has the opportunity to earn additional points for a spare (whatever is earned in the next roll is added to the 10 points in the frame) and a strike (points earned from the following two rolls are added to the 10 points in the frame).</p>
+    <content type="html"><![CDATA[<p>Yesterday I sat down with my 8th Light mentor, Doug, and paired on the <a href="http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata">Bowling Game Kata</a> and wrote it in Ruby. The general concept is to write a program capable of scoring a game of bowling and to use test driven development (TDD) in order to do so. A game of bowling is made up of 10 frames in which a player has two opportunities to knock down 10 pins. The player earns a score equal to the number of pins knocked down in each frame, but also has the opportunity to earn additional points for a spare (whatever is earned in the next roll is added to the 10 points in the frame) and a strike (points earned from the following two rolls are added to the 10 points in the frame).</p>
 
 <!--more-->
 
 
-<p>Before attempting this kata, I had tried to learn the ropes of TDD on my own, but was having a hard time getting a feel for writing tests for “the next easiest thing.” While pairing with Doug, we went over the Three Rules of TDD which were extremely helpful to me in clarifying the process. The first rule is not to write any production code unless it is to make a failing test pass. The second rule is not to write any more of a test than is sufficient to fail. The third rule is not to write any more production code than is necessary to pass the one failing test.</p>
+<p>Before attempting this kata, I had tried to learn the ropes of TDD on my own, but was having a hard time getting a feel for writing tests for “the next easiest thing.” While pairing with Doug, we went over the <a href="http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd">Three Rules of TDD</a> which were extremely helpful to me in clarifying the process. The first rule is not to write any production code unless it is to make a failing test pass. The second rule is not to write any more of a test than is sufficient to fail. The third rule is not to write any more production code than is necessary to pass the one failing test.</p>
 
 <p>We started with writing a test for the simplest case of a bowling game–one in which a player rolls all gutter balls. This case would result in a score of zero. After running the test and watching it fail, we added just enough production code to make it pass. The next test was for a simple game of bowling in which a player knocks down one pin each roll. The outcome of this game would be a score of 20. Once again, we ran the test, watched it fail, and added just enough production code to make it pass. We continued along like this for the case of a spare in the first frame, a strike in the first frame, and finally for the cases of a spare and strike in the tenth frame. Along the way, we did some refactoring, but only after we confirmed all tests written up to that point were passing. After finishing the kata with Doug, I felt I had such a better grasp on how to implement TDD and also learned how awesome it is. The simplicity of the code we wrote compared to what I written on my own (without using TDD) was quite a beautiful thing.</p>
 
