@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-01-18T16:37:21-06:00</updated>
+  <updated>2015-01-18T23:04:16-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -19,6 +19,9 @@
     <updated>2015-01-15T15:41:49-06:00</updated>
     <id>http://lisahamm.github.io/blog/2015/01/15/the-code-kata-practice-for-programmers</id>
     <content type="html"><![CDATA[<p>I wrote a <a href="http://www.lisahamm.com/blog/2015/01/09/the-bowling-game-kata/">blog post</a> last week about my experience pairing with my mentor on the Bowling Game Kata. I have continued to work on this kata over the last week and now have more insight into why developers do these. The word “kata” is a Japanese word for “form.” A kata is a karate exercise that is continuously repeated with the intent of making little improvements with each repetition. This concept has been brought into the software development world and is commonly referred to as a Code Kata, which is essentially a practice session for the programmer. Just as an athlete must practice her sport and a musician must practice his instrument, a developer also needs to practice her craft. Each code kata is designed to be a short exercise of which is completed daily for two weeks. The daily practice is designed to ingrain patterns into one’s mind while honing development skills.</p>
+
+<!--more-->
+
 
 <p>I’ve discovered firsthand that a code kata is also a great way for TDD (test driven development) newbies to get a feel for the process. In this post, I’ll go through the process of completing the Bowling Game Kata in Ruby. For a complete overview of the kata, visit <a href="http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata">Uncle Bob’s website</a>.</p>
 
@@ -423,6 +426,9 @@
     <id>http://lisahamm.github.io/blog/2015/01/13/useful-keyboard-shortcuts</id>
     <content type="html"><![CDATA[<p>I’ve been working on improving the time it takes me to complete the Bowling Game Kata. One thing that has been helpful with this is learning keyboard shortcuts that facilitate easy movement throughout the text editor. I am currently coding in Sublime Text 2 on a MacBook. I found this webpage that lists several shortcuts. So far, the most useful have been:</p>
 
+<!--more-->
+
+
 <p>-Command + Option + left or right arrow key to move from one open file to the next</p>
 
 <p>-Command + Tab which allows you to move into another application running (this makes it easy to switch between Sublime and the Terminal)</p>
@@ -445,6 +451,9 @@
     <updated>2015-01-09T15:40:05-06:00</updated>
     <id>http://lisahamm.github.io/blog/2015/01/09/the-bowling-game-kata</id>
     <content type="html"><![CDATA[<p>Yesterday I sat down with my 8th Light mentor, Doug, and paired on the Bowling Game Kata and wrote it in Ruby. The general concept is to write a program capable of scoring a game of bowling and to use test driven development (TDD) in order to do so. A game of bowling is made up of 10 frames in which a player has two opportunities to knock down 10 pins. The player earns a score equal to the number of pins knocked down in each frame, but also has the opportunity to earn additional points for a spare (whatever is earned in the next roll is added to the 10 points in the frame) and a strike (points earned from the following two rolls are added to the 10 points in the frame).</p>
+
+<!--more-->
+
 
 <p>Before attempting this kata, I had tried to learn the ropes of TDD on my own, but was having a hard time getting a feel for writing tests for “the next easiest thing.” While pairing with Doug, we went over the Three Rules of TDD which were extremely helpful to me in clarifying the process. The first rule is not to write any production code unless it is to make a failing test pass. The second rule is not to write any more of a test than is sufficient to fail. The third rule is not to write any more production code than is necessary to pass the one failing test.</p>
 
