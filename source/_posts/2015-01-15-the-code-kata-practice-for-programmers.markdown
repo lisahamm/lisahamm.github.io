@@ -12,7 +12,7 @@ I wrote a [blog post](http://www.lisahamm.com/blog/2015/01/09/the-bowling-game-k
 I’ve discovered firsthand that a code kata is also a great way for TDD (test driven development) newbies to get a feel for the process. In this post, I’ll go through the process of completing the Bowling Game Kata in Ruby. For a complete overview of the kata, visit [Uncle Bob’s website](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata).
 
 Starting with the simplest case, the first test is written for scoring a gutter game:
-```
+```ruby
 it "can score a gutter game" do
   bowling_game = BowlingGame.new
   20.times {bowling_game.roll(0)}
@@ -26,7 +26,7 @@ Failure/Error: 20.times {bowling_game.roll(0)}
      undefined method `roll'
 ```
 Now that we have a failing unit test, we can abide by Uncle Bob's first Law of TDD, and write code to enable this test to pass. It is also important to remember the third law of TDD, which states, "You are not allowed to write any more production code than is sufficient to pass the one failing unit test."
-```
+```ruby
 def roll(pins_down)
   pins_down
 end
