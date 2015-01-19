@@ -7,7 +7,7 @@ categories:
 ---
 
 I’ve been working on improving the time it takes me to complete the Bowling Game Kata. One thing that has been helpful with this is learning keyboard shortcuts that facilitate easy movement throughout the text editor. I am currently coding in Sublime Text 2 on a MacBook. I found this webpage that lists several shortcuts. So far, the most useful have been:
-
+<!--more-->
 -Command + Option + left or right arrow key to move from one open file to the next
 
 -Command + Tab which allows you to move into another application running (this makes it easy to switch between Sublime and the Terminal)
