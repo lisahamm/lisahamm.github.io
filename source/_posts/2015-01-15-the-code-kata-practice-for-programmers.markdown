@@ -57,7 +57,7 @@ def score
   @total
 end
 ```
-Now that both of the tests are passing, it's time for some refactoring.
+Now that both of the tests are passing, it's time for some refactoring. Cleaning up your code and removing code smells is an important process that should be done once your original code is working. By using TDD, the functionality of our code is well documented by our tests. This means we don't have worry that refactoring may or may not break our program. We will know immediately if this is the case when we run our tests after making a change.
 ```
 let(:bowling_game) {BowlingGame.new}
 
@@ -83,7 +83,39 @@ it "can score a game with a spare" do
   expect(bowling_game.score).to eq 29
 end
 ```
-In order to score a game with a spare, we will now need a variable to keep track of the number of pins knocked down in each roll. The player will receive 10 points plus the number of pins knocked down during the first roll of the subsequent frame.
+In order to score a game with a spare, we will now need a variable to keep track of the number of pins knocked down in each roll. The player will receive 10 points plus the number of pins knocked down during the first roll of the subsequent frame. Since this next step is more of a leap, I am going to refactor the current code further incorporating the spare test. For now, I will place an 'x' at the beginning of the test, which will tell rspec to ignore it.
+```
+xit "can score a game with a spare" do
+  2.times {bowling_game.roll(5)}
+  roll_many(18, 1)
+  expect(bowling_game.score).to eq 29
+end
+```
+In the BowlingGame class, the @total instance variable can be replaced with another instance variable, @rolls, that is set to equal an empty array. An attr_reader for this variable can also be added to the class. In the roll method, we can add the number of pins knocked down on each roll to the new rolls array. Additionally, now the score method can be refactored to actually implement the scoring.
+
+```
+attr_reader :rolls
+def initialize
+  @rolls = []
+end
+
+def roll(pins_down)
+  @rolls << pins_down
+end
+
+def score
+  rolls.reduce(:+)
+end
+```
+After checking to make sure the tests pass at this point, it's time to bring back the spare test by removing the 'x' placed at its beginning.
+```
+it "can score a game with a spare" do
+  2.times {bowling_game.roll(5)}
+  roll_many(18, 1)
+  expect(bowling_game.score).to eq 29
+end
+```
+In order for this test to pass, the score method needs to check if the pins knocked down in each frame total 10. A while loop can run through each frame by using an index variable to access each roll and then increment its value by 2 so as to move to the next frame.
 ```
 attr_reader :rolls
 def initialize
@@ -116,7 +148,7 @@ it "can score a game with a strike" do
   expect(bowling_game.score).to eq 30
 end
 ```
-After running rspec and watching this test fail, the score method is modified to account for the case of a strike.
+After running rspec and watching this test fail, the score method is modified to account for the case of a strike - when 10 pins are knocked down on the first roll of a frame. Here, the index variable must only increment by a value of 1 in order to move to the next frame (since there is only one roll in a frame with a strike).
 ```
 def score
   total = 0
@@ -199,7 +231,7 @@ Failure/Error: expect(bowling_game.score).to eq 300
 TypeError:
   nil can't be coerced into Fixnum
 ```
-In order to make this test pass, the score method needs a variable to keep track of the frame number. The while loop within this method needs to execute while the frame number is less than 10.
+This error message is a common one--it occurs when trying to access an item of an array with an index that reaches further than the length of an array (this results in a nil value). In order to make this test pass, the score method needs a variable to keep track of the frame number. The while loop within this method needs to execute while the frame number is less than 10.
 ```
 def score
   total = 0
