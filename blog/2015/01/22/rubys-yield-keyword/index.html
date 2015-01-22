@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby&#8217;s Yield Keyword - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Ruby's Yield Keyword written This week I have been working on solving Project Euler problems with Ruby. Project Euler is a website containing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/01/22/rubys-yield-keyword">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Ruby&#8217;s Yield Keyword</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-01-22T09:02:13-06:00" pubdate data-updated="true"></time>
+          
+
+
+        </div>
+        <p>This week I have been working on solving <a href="https://projecteuler.net/">Project Euler</a> problems with Ruby. Project Euler is a website containing mathematical problems that require a computer to solve them. Many of the problems have common themes such as identifying prime numbers or Fibonacci terms. My mentor recommended placing code pertaining to these common themes in modules so the code can be reused by including the module in the problems that require it.</p>
+
+<!--more-->
+
+
+<p>One of the modules I created was for handling prime numbers. In order to do this, I had to read up on Ruby&rsquo;s &ldquo;yield&rdquo; keyword. The yield keyword invokes the block of code associated with the method in which it is being used. A simple implementation looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">three_times</span>
+</span><span class='line'>  <span class="k">yield</span>
+</span><span class='line'>  <span class="k">yield</span>
+</span><span class='line'>  <span class="k">yield</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">three_times</span><span class="p">{</span><span class="nb">puts</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#produces:</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Hello</span> <span class="n">world</span>
+</span><span class='line'><span class="no">Hello</span> <span class="n">world</span>
+</span><span class='line'><span class="no">Hello</span> <span class="n">world</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first method I implemented in my PrimeNumber module was a simple check to see if a given number is prime:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">prime?</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">2</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">none?</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next method I implemented was where it got interesting: a method to return all prime numbers up to any given number.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">prime_numbers_up_to</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span>  <span class="mi">2</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="n">i</span> <span class="k">if</span> <span class="n">prime?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this method, the while loop begins running with an i value equal to the first prime number, 2. If the value of i is a prime value, the yield keyword will invoke whatever block is given along with the method. Once the associated block has been executed, the method will pick up right where it left off&ndash;incrementing i. The loop will continue repeating in this fashion until the value of i becomes greater than the value of the number given as a parameter. Pretty cool!</p>
+
+<p>Similarly, I also wrote a method to return a specific number of prime numbers. This method keeps track of the number of prime numbers it has passed to its associated block and will stop running once this number equals the number passed in as a parameter.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">prime_numbers_up_to_nth_term</span><span class="p">(</span><span class="n">nth_term</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">term_counter</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">term_counter</span> <span class="o">&lt;</span> <span class="n">nth_term</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">prime?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">yield</span> <span class="n">i</span>
+</span><span class='line'>      <span class="n">term_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I was able to utilize this method in Project Euler&rsquo;s Problem 7, which reads:</p>
+
+<p>By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+What is the 10 001st prime number?</p>
+
+<p>In order to solve this problem, I included the PrimeNumber module in my Problem 7 file, and passed 10001 in as the argument. The associated block stores the most recently received prime number, which the method then returns.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">include</span> <span class="no">PrimeNumber</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">nth_prime_number</span><span class="p">(</span><span class="n">nth_term</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">term</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="no">PrimeNumber</span><span class="o">.</span><span class="n">prime_numbers_up_to_nth_term</span><span class="p">(</span><span class="n">nth_term</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="n">term</span> <span class="o">=</span> <span class="n">n</span><span class="p">}</span>
+</span><span class='line'>  <span class="n">term</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can find my Project Euler solutions on my <a href="https://github.com/lisahamm/project_euler_tdd">github</a>.</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/01/15/the-code-kata-practice-for-programmers/" title="Previous Post: The Code Kata: Practice for Programmers">&laquo; Previous: The Code Kata: Practice for Programmers</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
