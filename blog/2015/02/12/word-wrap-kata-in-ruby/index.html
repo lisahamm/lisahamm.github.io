@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Word Wrap Kata in Ruby - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Word Wrap Kata in Ruby written I&rsquo;ve recently been working through the Word Wrap Kata, writing it in Ruby. Since Uncle Bob&rsquo;s post walks &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/02/12/word-wrap-kata-in-ruby">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Word Wrap Kata in Ruby</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-02-12T11:00:41-06:00" pubdate data-updated="true"></time>
+          
+
+
+        </div>
+        <p>I&rsquo;ve recently been working through the Word Wrap Kata, writing it in Ruby. Since <a href="http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html">Uncle Bob&rsquo;s post</a> walks through the kata in Java, I thought I&rsquo;d write a post detailing an implementation in Ruby.</p>
+
+<h3>The General Concept</h3>
+
+<p>The idea behind this kata is to write a method that will wrap a string of text according to a specified line length/width. The wrap method will take a string and line length as parameters. It must return the string with appropriate line breaks, ensuring no line is longer than the specified line length. The concept is similar to that of a word processor (i.e. Microsoft Word). Uncle Bob uses TDD to demonstrate the benefit of taking small steps when writing code. If the step you are trying to take in your code seems more like a leap, there is likely a simpler step that could (and should) be taken.</p>
+
+<!--more-->
+
+
+<h3>The First Two Tests</h3>
+
+<p>What is the simplest possible case the method must handle? An empty string and line length of zero. So our first test would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;does not wrap an empty string onto a newline&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to make this test pass, the wrap method must be created and just needs to return an empty string at this point:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Building upon this, the method should also return an unaltered string when given a string shorter than the desired line length. The second test documents this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;does not wrap a string shorter than the line width onto a newline&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Passing the second test is straightforward: the method should simply return the string specified in its parameters.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">string</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Going Down The Wrong Path</h3>
+
+<p>The third test is where this kata really starts to get interesting. When coming up with the next simplest test here, you may find yourself going down the wrong path. To some, the obvious next test is for wrapping a two word string after the space. This test would likely be followed by wrapping a three word string after the first space.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps a two word string after the space&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word</span><span class="se">\n</span><span class="s2">word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps a three word string after the first space&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word word&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word</span><span class="se">\n</span><span class="s2">word</span><span class="se">\n</span><span class="s2">word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once these two tests are passing, we know we can wrap a string at the first space, so it&rsquo;s time to move on to wrapping at the second space:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps a three word string after the first space&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word word&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word word</span><span class="se">\n</span><span class="s2">word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While it isn&rsquo;t very hard to pass the tests for wrapping a string at its first space, it&rsquo;s much more difficult to get the test for wrapping at the second space to pass. Even if you are confident you can figure out how to pass this last test, it&rsquo;s going to require you making a leap with your code. When you find yourself adding a lot of code at once, and perhaps, making guesses in your code, it is time to take a step back and look for something simpler to solve. As Uncle Bob quotes in his post, &ldquo;When faced with a problem you do not understand, do any part of it you do understand, then look at it again.&rdquo;</p>
+
+<h3>Taking A Step Back</h3>
+
+<p>Lets revisit the third test: wrapping a two word string after the space. Is there something else that could be tested at this point instead? Another case the method needs to handle is wrapping a one word string longer than the specified line length. Making this the third test case will end up leading us down a clearer path.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps a string longer than the line length&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;wo</span><span class="se">\n</span><span class="s2">rd&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To pass this test, the method returns an unaltered string if its length is less than or equal to that of the specified line length, otherwise it will split the characters of the string with a newline at the line length boundary.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Building upon the previous step, the method must also wrap a one word string longer than two line lengths.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps a one word string longer than two line lengths&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;he</span><span class="se">\n</span><span class="s2">ll</span><span class="se">\n</span><span class="s2">o&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to handle wrapping a string onto a variable number of lines, we can add recursion into our method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Back to Dealing With Spaces</h3>
+
+<p>The fifth test revisits the idea of wrapping a two word string on its word boundary (i.e. space character).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps on word boundary&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word</span><span class="se">\n</span><span class="s2">word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This requires an if-else statement to check for a space character at the line width, in which case it will skip over the space and create a newline.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next test documents the case of dealing with a line width value that occurs after the word boundary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps after word boundary&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word</span><span class="se">\n</span><span class="s2">word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to successfully handle this case, we need to find the last index of a space character in a substring of characters with a length equal to that of the specified line width. In Java, there is a handy lastIndexOf() method. Ruby does not have a built in method to do this, so we need to come up with a way to implement this ourselves. The Array#index method proves useful for this. This method returns the index of the first item in an array that is equal (==) to the method&rsquo;s argument. If no match is found, the method will return nil. Since this finds the first (not last) match, the string needs to be reversed and the index method can be called with the space character as its argument. Subtracting the result from the line width value will effectively give the last index value. This should be calculated for all substrings that return a value other than nil when the index method is called.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">space_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">reverse</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">space_index</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">space_index</span><span class="o">+</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that the cases of wrapping a string at and after the word boundary have been covered, it is time to think about cases of wrapping a string prior to a word boundary. The seventh test documents the method&rsquo;s ability to successfully wrap a string well before its word boundary. This test passes without writing any additional code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps well before word boundary&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;wor</span><span class="se">\n</span><span class="s2">d</span><span class="se">\n</span><span class="s2">wor</span><span class="se">\n</span><span class="s2">d&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>One Final Test</h3>
+
+<p>The last case that needs to be dealt with is wrapping a string just prior to the word boundary (i.e. when the space occurs one character after the line width). The eighth and final test looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;wraps just before word boundary&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">WordWrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="s2">&quot;word word&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;word</span><span class="se">\n</span><span class="s2">word&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Such a case is successfully dealt with by adding an &ldquo;elsif&rdquo; statement in our wrap method to check the character right after the specified line width.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">space_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">reverse</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">space_index</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">space_index</span><span class="o">+</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">+</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Wrapping Up (no pun intended)</h3>
+
+<p>The wrap method is now fully functional. It still needs some refactoring, which I will walk through in my next blog post. I found this kata to be somewhat challenging at first, but it does a great job illustrating some important concepts. It allows the programmer to experience the benefits of Test Driven Development (TDD) by creating an opportunity to go down the wrong path with the code. In doing such, the programmer is able to experience firsthand what it feels like to write the wrong next test. This exercise taught me how much easier it is to write code in small steps as opposed to trying to solve the majority of the problem at once.</p>
+
+<p>Ultimately, this kata really helped me learn the following: if you find yourself struggling to get a test to pass, there is a good chance you are trying to pass the wrong test.</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/02/02/optimizing-solution-to-project-euler-problem-12/" title="Previous Post: Optimizing Solution to Project Euler Problem 12">&laquo; Previous: Optimizing Solution to Project Euler Problem 12</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
