@@ -6,7 +6,7 @@ comments: true
 categories:
 ---
 
-I've recently been working through the Word Wrap Kata, writing it in Ruby. Since [Uncle Bob's post](http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html) walks through the kata in Java, I thought I'd write a post detailing an implementation in Ruby.
+I've recently been working through the [Word Wrap Kata](http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html), writing it in Ruby. Since [Uncle Bob's post](http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html) walks through the kata in Java, I thought I'd write a post detailing an implementation in Ruby.
 
 ### The General Concept
 
