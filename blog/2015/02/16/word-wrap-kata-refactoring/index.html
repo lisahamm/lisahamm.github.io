@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Word Wrap Kata Refactoring - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Word Wrap Kata Refactoring written Feb 16th, 2015 10:51 am In my last post, I walked through the steps involved in Uncle Bob&rsquo;s Word Wrap Kata &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/02/16/word-wrap-kata-refactoring">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Word Wrap Kata Refactoring</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+<time class='entry-date' datetime='2015-02-16T10:51:08-06:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:51 am</span></time>
+          
+
+
+        </div>
+        <p>In my last <a href="http://www.lisahamm.com/blog/2015/02/12/word-wrap-kata-in-ruby/">post</a>, I walked through the steps involved in Uncle Bob&rsquo;s <a href="http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html">Word Wrap Kata</a>. In this post, I will continue with some refactoring steps specific to a solution written in Ruby.</p>
+
+<h3>The Starting Point</h3>
+
+<p>Completing the initial steps of the kata in Ruby resulted in the following code:</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">space_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">reverse</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">space_index</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">space_index</span><span class="o">+</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">+</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Practice With Monkey Patching</h3>
+
+<p>For learning purposes, my mentor suggested I add my own methods to Ruby&rsquo;s String class (a process often referred to as monkey patching), so I could see how the process works (but note that in practice this is usually not a good idea). To start, I added two methods to Ruby&rsquo;s string class: a method to return the last index of a given character in a string (similar to Java&rsquo;s lastIndexOf() method) and a method to return the rest of a string from a given index:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">last_index_of</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">self</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">rest_from</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">[</span><span class="n">index</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Optimizing the last_index_of(character) Method</h3>
+
+<p>Further refactoring can be done to the last_index_of(character) method. I removed the &lsquo;self&rsquo; reference since Ruby will call methods without explicit receivers on whatever object is currently assigned to &lsquo;self,&rsquo; which in this case is an instance of the string class, making it unnecessary to reference &lsquo;self&rsquo; in this method. Next, instead of using Ruby&rsquo;s reverse method, we can use the downto method. This is a less expensive operation since we can bypass the reversal process and simply tell ruby where to begin iterating in the reverse direction.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">last_index_of</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">downto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="k">return</span> <span class="n">i</span> <span class="k">if</span> <span class="nb">self</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">character</span><span class="p">}</span>
+</span><span class='line'>  <span class="kp">nil</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I incorporated these additional methods into my wrap function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">space_index</span> <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">].</span><span class="n">last_index_of</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">space_index</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">remainder_from</span><span class="p">(</span><span class="n">space_index</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">string</span><span class="o">[</span><span class="n">line_width</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">remainder_from</span><span class="p">(</span><span class="n">line_width</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">line_width</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">remainder_from</span><span class="p">(</span><span class="n">line_width</span><span class="p">),</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also added a final method to the String class to return a substring:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">substring</span><span class="p">(</span><span class="n">start_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">[</span><span class="n">start_index</span><span class="o">.</span><span class="n">.end_index</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Ruby&rsquo;s strip method</h3>
+
+<p>Ruby has a handy method, &lsquo;strip,&rsquo; in the String class that will eliminate whitespace at the start and end of a string. I decided to take advantage of this and was able to eliminate the previous steps in the method that served this purpose.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="n">substring</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">end_index</span> <span class="o">=</span> <span class="n">substring</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span> <span class="p">?</span> <span class="n">substring</span><span class="o">.</span><span class="n">last_index_of</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="p">:</span> <span class="n">line_width</span>
+</span><span class='line'>  <span class="n">string</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">end_index</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">rest_from</span><span class="p">(</span><span class="n">end_index</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Readability</h3>
+
+<p>Another important concept to consider when refactoring is the code readability. Is the code readable? Will the code be easy to read if you look back at it in months from now? Someone who does not know how to program should be able to read your code and know what it is accomplishing. In this particular example, one way to make the code more readable is to add an additional method to the word wrap module that checks if a string contains a space character. The method should return a boolean value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">has_a_space?</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">string</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Putting it all together</h3>
+
+<p>Putting all of this together results in the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">last_index_of</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">self</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">rest_from</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">[</span><span class="n">index</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">substring</span><span class="p">(</span><span class="n">start_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">[</span><span class="n">start_index</span><span class="o">.</span><span class="n">.end_index</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">WordWrap</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">wrap</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">line_width</span>
+</span><span class='line'>    <span class="n">substring</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">line_width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">end_index</span> <span class="o">=</span> <span class="n">has_a_space?</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span> <span class="p">?</span> <span class="n">substring</span><span class="o">.</span><span class="n">last_index_of</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="p">:</span> <span class="n">line_width</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">end_index</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrap</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">rest_from</span><span class="p">(</span><span class="n">end_index</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">line_width</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">has_a_space?</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">string</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>My solution to this kata, including the tests, is available on my <a href="https://github.com/lisahamm/word_wrap_kata">github</a>.</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/02/12/word-wrap-kata-in-ruby/" title="Previous Post: Word Wrap Kata in Ruby">&laquo; Previous: Word Wrap Kata in Ruby</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
