@@ -107,9 +107,9 @@ Putting all of this together results in the following code:
 ```
 class String
   def last_index_of(character)
-    self.length-1 - self.reverse.index(character)
+    (length - 1).downto(0) {|i| return i if self[i] == character}
+    nil
   end
-
   def rest_from(index)
     self[index..-1]
   end
