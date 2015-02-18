@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-02-16T10:45:36-06:00</updated>
+  <updated>2015-02-18T09:18:34-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Started With Sinatra]]></title>
+    <link href="http://lisahamm.github.io/blog/2015/02/16/getting-started-with-sinatra/"/>
+    <updated>2015-02-16T10:51:57-06:00</updated>
+    <id>http://lisahamm.github.io/blog/2015/02/16/getting-started-with-sinatra</id>
+    <content type="html"><![CDATA[<p>The next task I will be working on during my apprenticeship is building a web app that can play my tic tac toe game, which currently only runs in the terminal. I will be using <a href="http://www.sinatrarb.com/">Sinatra</a> to do this, so I am spending time becoming familar with the framework.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Word Wrap Kata Refactoring]]></title>
+    <link href="http://lisahamm.github.io/blog/2015/02/16/word-wrap-kata-refactoring/"/>
+    <updated>2015-02-16T10:51:08-06:00</updated>
+    <id>http://lisahamm.github.io/blog/2015/02/16/word-wrap-kata-refactoring</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Word Wrap Kata in Ruby]]></title>
