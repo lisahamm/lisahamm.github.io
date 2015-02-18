@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Ruby's Yield Keyword"
-date: 2015-01-22 09:02:13 -0600
+date: 2015-01-22
 comments: true
 categories:
 ---

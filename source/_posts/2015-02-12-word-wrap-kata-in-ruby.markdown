@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Word Wrap Kata in Ruby"
-date: 2015-02-12 11:00:41 -0600
+date: 2015-02-12
 comments: true
 categories:
 ---

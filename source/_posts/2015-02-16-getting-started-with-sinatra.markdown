@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Getting Started With Sinatra"
-date: 2015-02-16 10:51:57 -0600
+date: 2015-02-16
 comments: true
 categories:
 published: false

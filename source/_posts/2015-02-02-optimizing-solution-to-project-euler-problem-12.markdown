@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Optimizing Solution to Project Euler Problem 12"
-date: 2015-02-02 17:19:39 -0500
+date: 2015-02-02
 comments: true
 categories:
 ---

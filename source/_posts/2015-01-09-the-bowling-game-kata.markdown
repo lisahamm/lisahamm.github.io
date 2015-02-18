@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Bowling Game Kata"
-date: 2015-01-09 15:40:05 -0600
+date: 2015-01-09
 comments: true
 categories:
 ---
