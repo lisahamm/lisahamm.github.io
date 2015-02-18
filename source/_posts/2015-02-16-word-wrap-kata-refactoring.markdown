@@ -27,6 +27,7 @@ def self.wrap(string, line_width)
   end
 end
 ```
+
 ### Practice With Monkey Patching
 
 For learning purposes, my mentor suggested I add my own methods to Ruby's String class (a process often referred to as monkey patching), so I could see how the process works (but note that in practice this is usually not a good idea). To start, I added two methods to Ruby's string class: a method to return the last index of a given character in a string (similar to Java's lastIndexOf() method) and a method to return the rest of a string from a given index:
@@ -42,6 +43,7 @@ class String
   end
 end
 ```
+
 ### Optimizing the last_index_of(character) Method
 
 Further refactoring can be done to the last_index_of(character) method. I removed the 'self' reference since Ruby will call methods without explicit receivers on whatever object is currently assigned to 'self,' which in this case is an instance of the string class, making it unnecessary to reference 'self' in this method. Next, instead of using Ruby's reverse method, we can use the downto method. This is a less expensive operation since we can bypass the reversal process and simply tell ruby where to begin iterating in the reverse direction.
@@ -74,6 +76,7 @@ def substring(start_index=0, end_index)
   self[start_index..end_index]
 end
 ```
+
 ### Ruby's strip method
 
 Ruby has a handy method, 'strip,' in the String class that will eliminate whitespace at the start and end of a string. I decided to take advantage of this and was able to eliminate the previous steps in the method that served this purpose.
@@ -86,6 +89,7 @@ def self.wrap(string, line_width)
   string.substring(end_index-1) + "\n" + wrap(string.rest_from(end_index).strip, line_width)
 end
 ```
+
 ### Readability
 
 Another important concept to consider when refactoring is the code readability. Is the code readable? Will the code be easy to read if you look back at it in months from now? Someone who does not know how to program should be able to read your code and know what it is accomplishing. In this particular example, one way to make the code more readable is to add an additional method to the word wrap module that checks if a string contains a space character. The method should return a boolean value:
