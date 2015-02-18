@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-02-18T10:59:43-06:00</updated>
+  <updated>2015-02-18T14:28:53-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -196,9 +196,9 @@
 <span class='line-number'>26</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">String</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">last_index_of</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">self</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">downto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="k">return</span> <span class="n">i</span> <span class="k">if</span> <span class="nb">self</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">character</span><span class="p">}</span>
+</span><span class='line'>    <span class="kp">nil</span>
 </span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">rest_from</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </span><span class='line'>    <span class="nb">self</span><span class="o">[</span><span class="n">index</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
 </span><span class='line'>  <span class="k">end</span>
