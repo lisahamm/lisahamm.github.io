@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-02-18T14:28:53-06:00</updated>
+  <updated>2015-02-23T09:19:08-06:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Beauty of Using an Options Hash as an Argument]]></title>
+    <link href="http://lisahamm.github.io/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument/"/>
+    <updated>2015-02-23T00:00:00-06:00</updated>
+    <id>http://lisahamm.github.io/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument</id>
+    <content type="html"><![CDATA[<p>What makes code beautiful? I recently listened to an interesting <a href="http://devchat.tv/ruby-rogues/what-makes-beautiful-code">Ruby Rogues episode</a> on this topic, so it is something I have been mindful of lately in my own work. As a beginner, I find it helpful to hear answers to this question from programmers with more experience since they have undoubtedly read more code than I have, which generally results in being able to better identify what does and doesn&rsquo;t work. I personally think there are a lot of defining characteristics of beautiful code, many of which I am still learning. In this post, I will share one simple technique I have seen used by more experienced programmers that often leads to more expressive code.</p>
+
+<!--more-->
+
+
+<p>While working on building a web application for the <a href="https://github.com/lisahamm/tic_tac_toe">unbeatable tic tac toe</a> program I wrote in Ruby some time ago, I came across some problems when trying to use the code with a different interface (I originally wrote it to run in the terminal). My Board class contained an initialize method with two optional arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TicTacToe</span>
+</span><span class='line'>  <span class="no">BOARD_SIZE</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Board</span>
+</span><span class='line'>    <span class="kp">attr_accessor</span> <span class="ss">:cells</span><span class="p">,</span> <span class="ss">:size</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="no">BOARD_SIZE</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@size</span> <span class="o">=</span> <span class="n">size</span>
+</span><span class='line'>      <span class="vi">@cells</span> <span class="o">=</span> <span class="n">cells</span> <span class="o">||</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">size</span><span class="o">*</span><span class="n">size</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># rest of code ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code worked when running the game in the terminal since the board object was simply initialized once at the beginning of the game. However, when trying to use the code with a web interface, I soon realized this code could benefit from some refactoring. Using Sinatra to build the web app, I found myself using sessions to keep track of the board state. I decided to create the board by initializing a Board object with a moves array stored in a session.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/game&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@player_mark</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:mark</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@board</span> <span class="o">=</span> <span class="no">Board</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:moves</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:moves</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@board</span><span class="o">.</span><span class="n">symbols_to_array</span>
+</span><span class='line'>  <span class="n">erb</span> <span class="ss">:board</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also decided to use Ruby&rsquo;s Struct class to create Cell objects and wrote a <code>cellify</code> method to format cell data passed in as an argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="no">BOARD_SIZE</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@size</span> <span class="o">=</span> <span class="n">size</span>
+</span><span class='line'>  <span class="vi">@cells</span> <span class="o">=</span> <span class="n">cellify</span><span class="p">(</span><span class="n">cells</span> <span class="o">||</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">size</span><span class="o">*</span><span class="n">size</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Cell</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:symbol</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">cellify</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">data</span><span class="o">.</span><span class="n">each_with_index</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">symbol</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="no">Cell</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">index</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>The Problem</h3>
+
+<p>Attempting to run the code at this point resulted in an error message since the board&rsquo;s <code>initialize</code> method was expecting a board size parameter to be passed in as its first argument. In order to fix this, the caller would have to pass the cells as the second argument. However, that would force the caller to also have to pass something for the first argument, which defeats the point of having an optional parameter. So how could the caller pass in only the arguments which they care about and ignore the others, having them safely defaulted?</p>
+
+<h3>A Better Way</h3>
+
+<p>Instead of passing in multiple arguments, a common practice is to pass in one argument, which is a hash containing arguments as key-value pairs. Default values can be provided by a method that returns a hash and then is subsequently merged with the actual arguments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">options</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@size</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:size</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@cells</span> <span class="o">=</span> <span class="n">cellify</span><span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:cells</span><span class="o">]</span> <span class="o">||</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">size</span><span class="o">*</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span><span class="kp">nil</span><span class="p">})</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">defaults</span>
+</span><span class='line'>  <span class="p">{</span><span class="ss">size</span><span class="p">:</span> <span class="no">BOARD_SIZE</span><span class="p">,</span> <span class="ss">cells</span><span class="p">:</span> <span class="kp">nil</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Doing this allows the caller to then pass in values to overide the defaults as needed. The caller does not have to pass certain arguments in every time an object is initialized when using the default values. This technique also makes the argument order irrelevant, which becomes particularly important when passing a large number of arguments to a method.</p>
+
+<h3>Beautiful Code</h3>
+
+<p>Overall, this simple technique lends itself to creating more flexible, reusable, and in my opinion, beautiful code. Incorporating this into the app&rsquo;s server file also seemed to facilitate readability since the key is now serving as somewhat of a label for the argument being passed to board:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/game&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@player_mark</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:mark</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@board</span> <span class="o">=</span> <span class="no">Board</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">cells</span><span class="p">:</span> <span class="n">session</span><span class="o">[</span><span class="ss">:moves</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:moves</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@board</span><span class="o">.</span><span class="n">symbols_to_array</span>
+</span><span class='line'>  <span class="n">erb</span> <span class="ss">:board</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty neat! I will definitely be utilizing this technique in my code from now on.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Word Wrap Kata Refactoring]]></title>
