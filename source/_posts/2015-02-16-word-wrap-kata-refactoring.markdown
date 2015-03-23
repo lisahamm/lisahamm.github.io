@@ -7,12 +7,11 @@ categories:
 ---
 
 In my last [post](http://www.lisahamm.com/blog/2015/02/12/word-wrap-kata-in-ruby/), I walked through the steps involved in Uncle Bob's [Word Wrap Kata](http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html). In this post, I will continue with some refactoring steps specific to a solution written in Ruby.
+<!--more-->
 
 ### The Starting Point
 
 Completing the initial steps of the kata in Ruby resulted in the following code:
-
-<!--more-->
 
 ```ruby
 def self.wrap(string, line_width)
