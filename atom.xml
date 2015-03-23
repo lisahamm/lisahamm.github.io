@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-03-23T13:47:58-05:00</updated>
+  <updated>2015-03-23T13:51:05-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -136,10 +136,8 @@ If you make changes and suddenly your program stops working, Git makes it easy t
     <link href="http://lisahamm.github.io/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument/"/>
     <updated>2015-02-23T00:00:00-06:00</updated>
     <id>http://lisahamm.github.io/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument</id>
-    <content type="html"><![CDATA[<p>What makes code beautiful? I recently listened to an interesting <a href="http://devchat.tv/ruby-rogues/what-makes-beautiful-code">Ruby Rogues episode</a> on this topic, so it is something I have been mindful of lately in my own work. As a beginner, I find it helpful to hear answers to this question from programmers with more experience since they have undoubtedly read more code than I have, which generally results in being able to better identify what does and doesn&rsquo;t work. I personally think there are a lot of defining characteristics of beautiful code, many of which I am still learning. In this post, I will share one simple technique I have seen used by more experienced programmers that often leads to more expressive code.</p>
-
-<!--more-->
-
+    <content type="html"><![CDATA[<p>What makes code beautiful? I recently listened to an interesting <a href="http://devchat.tv/ruby-rogues/what-makes-beautiful-code">Ruby Rogues episode</a> on this topic, so it is something I have been mindful of lately in my own work.<!--more-->
+As a beginner, I find it helpful to hear answers to this question from programmers with more experience since they have undoubtedly read more code than I have, which generally results in being able to better identify what does and doesn&rsquo;t work. I personally think there are a lot of defining characteristics of beautiful code, many of which I am still learning. In this post, I will share one simple technique I have seen used by more experienced programmers that often leads to more expressive code.</p>
 
 <p>While working on building a web application for the <a href="https://github.com/lisahamm/tic_tac_toe">unbeatable tic tac toe</a> program I wrote in Ruby some time ago, I came across some problems when trying to use the code with a different interface (I originally wrote it to run in the terminal). My Board class contained an initialize method with two optional arguments:</p>
 
@@ -273,14 +271,12 @@ If you make changes and suddenly your program stops working, Git makes it easy t
     <id>http://lisahamm.github.io/blog/2015/02/16/word-wrap-kata-refactoring</id>
     <content type="html"><![CDATA[<p>In my last <a href="http://www.lisahamm.com/blog/2015/02/12/word-wrap-kata-in-ruby/">post</a>, I walked through the steps involved in Uncle Bob&rsquo;s <a href="http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html">Word Wrap Kata</a>. In this post, I will continue with some refactoring steps specific to a solution written in Ruby.</p>
 
-<h3>The Starting Point</h3>
-
-<p>Completing the initial steps of the kata in Ruby resulted in the following code:</p>
-
 <!--more-->
 
 
+<h3>The Starting Point</h3>
 
+<p>Completing the initial steps of the kata in Ruby resulted in the following code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
