@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Git Basics - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Git Basics written Mar 23rd, 2015 What is Git? Git is a popular Version Control System that records changes made to files over time. This offers &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/03/23/git-basics">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Git Basics</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+<time class='entry-date' datetime='2015-03-23T10:22:35-05:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span></time>
+          
+
+
+        </div>
+        <h3>What is Git?</h3>
+
+<p>Git is a popular Version Control System that records changes made to files over time. This offers many benefits, such as the capability of reverting changes and comparing changes in files. <!--more-->
+If you make changes and suddenly your program stops working, Git makes it easy to revert back to a working state. Git also comes in handy when collaborating with others on a project. Team members are easily able to view who made specific changes at specific time points.</p>
+
+<p>Git is an incredibly useful tool to a developer at any stage in their learning. I would suggest learning the basics of Git as early as possible.</p>
+
+<h3>Getting started with Git</h3>
+
+<p>Conceptually, Git allows users to make changes in a working directory, add specific modified files to a staging area, and commit staged files with messages. Beginning to use Git in a project is fairly straightforward. In the terminal, cd into your project&rsquo;s root directory. To initialize a new git repository, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is a good idea to get in the habit of typing <code>git status</code> before and after every git command you execute. This will allow you to see the status of your files and double check the files are actually being staged and committed the way you think they are. Running <code>git status</code> at this point will return:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Untracked files:
+</span><span class='line'>  (use "git add &lt;file&gt;..." to include in what will be committed)
+</span><span class='line'>
+</span><span class='line'>        # All files in the project folder will be listed here</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, you will need to get the files you would like to be tracked into the new Git repository you created. This will require two steps. First, the files need to be staged. To do this for individual files, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add &lt;filename&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alternatively, if you would like to do this for all of your files at once, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you think the files have been added to the staging area, it is a good idea to double check with <code>git status</code>, which should return:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Changes to be committed:
+</span><span class='line'>  (use "git reset HEAD &lt;file&gt;..." to unstage)
+</span><span class='line'>
+</span><span class='line'>  new file:   # your filename</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once the files have been added to the staging area, the second step is to actually commit the proposed changes with the following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -m "Commit message"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will commit your changes, along with your message, to the HEAD of the git repository.</p>
+
+<h3>Now what?</h3>
+
+<p>At this point, if you are using a remote repository, you can go ahead and push your changes to it. Otherwise, you are now in good shape to begin making changes to your files. Make sure to track future changes as you go by adding and committing them. It is important to make small, focused commits when possible. This will make it easier to look back at your project changes later on. It also makes your life much easier if you need to revert changes. Prior to staging changes, you can run <code>git diff</code> to view changes made to the files. It is a good idea to do this so you know exactly what you are committing (avoid committing commented-out code, print, puts, and p statements) and thus, will be able to include an accurate message with the commit.</p>
+
+<h3>Work on branches</h3>
+
+<p>By default, when a Git repository is initialized, it is created on the &ldquo;master&rdquo; branch. It is a good idea to become in the habit of creating alternate branches to use for development. These branches can be merged with the master branch once proper changes have been made to them.</p>
+
+<p>To create a new branch and simultaneously switch to it, type the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b branch_name</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To switch back to the master branch:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Branches can be merged with the following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git merge &lt;branch&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reverting changes</h3>
+
+<p>Luckily, Git understands mistakes are inevitable and provides ways to revert changes. To discard changes in the working directory (those that haven&rsquo;t yet been staged or committed), the following command will revert your file to its state at the last commit:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -- &lt;file&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To remove a file from the staging area, without altering the working directory, use the following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset &lt;file&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To remove all files from the staging area, without altering the working directory, you can simply use <code>git reset</code>.</p>
+
+<p>To remove all uncommitted changes from both the staging area and the working directory, use:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --hard</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Takeaway</h3>
+
+<p>Git is a powerful tool one can take advantage of by knowing just a handful of basic commands. Learning to use Git early on during solo/personal projects will be incredibly useful when it comes time to work with a team of developers. Remember to make small, focused commits with meaningful commit messages&ndash;I guarantee your future self will thank you.</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument/" title="Previous Post: The Beauty of Using an Options Hash as an Argument">&laquo; Previous: The Beauty of Using an Options Hash as an Argument</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
