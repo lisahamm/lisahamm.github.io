@@ -15,7 +15,7 @@ Git is an incredibly useful tool to a developer at any stage in their learning. 
 
 ### Getting started with Git
 
-Conceptually, Git allows users to make changes in a working directory, add specific modified files to a staging area, and commit staged files with messages. Beginning to use Git in a project is fairly straightforward. In the terminal, cd into your project's root directory. To initialize a new git repository, type:
+Conceptually, Git allows users to make changes in a working directory, add specific modified files to a staging area, and commit staged files with messages. Beginning to use Git in a project is fairly straightforward. If you do not yet have Git on your computer, you can download it [here](http://git-scm.com/downloads). Once you have Git downloaded, cd into your project's root directory in the terminal. To initialize a new git repository, type:
 
 ```
 git init
