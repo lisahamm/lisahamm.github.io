@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-03-24T14:38:26-05:00</updated>
+  <updated>2015-03-24T16:08:02-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -59,6 +59,18 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column email text;</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Alternatively, a table can be created with columns in one step as opposed to creating a table, then adding columns, one by one. The &ldquo;test&rdquo; table from above could also be created in the following way:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE test (
+</span><span class='line'>    name      text,
+</span><span class='line'>    email     text
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Running <code>\d &lt;table_name&gt;</code> will display the table&rsquo;s columns. Executing this for the &ldquo;test&rdquo; table would look like:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -101,7 +113,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>insert into table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#98;&#x6f;&#98;&#64;&#116;&#101;&#x73;&#x74;&#x2e;&#x63;&#111;&#109;">&#x62;&#x6f;&#x62;&#64;&#x74;&#x65;&#x73;&#x74;&#x2e;&#99;&#111;&#x6d;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#98;&#111;&#98;&#64;&#x74;&#101;&#115;&#x74;&#x2e;&#99;&#x6f;&#109;">&#98;&#x6f;&#x62;&#64;&#x74;&#x65;&#115;&#x74;&#46;&#99;&#111;&#109;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>insert into test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
@@ -226,6 +238,18 @@
 
 
 <p>Note, &ldquo;ASC&rdquo; can be replaced with &ldquo;DESC&rdquo; to return data in descending order.</p>
+
+<h3>Updating</h3>
+
+<p>Existing rows in a table can be updated using the <code>UPDATE</code> command. For example, if Katie&rsquo;s email address changes to &ldquo;katie@example.com,&rdquo; the following command will update her email in the &ldquo;test&rdquo; table:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Update test
+</span><span class='line'>    SET email = 'katie@example.com'
+</span><span class='line'>    WHERE name = 'Katie'</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Conclusion</h3>
 
