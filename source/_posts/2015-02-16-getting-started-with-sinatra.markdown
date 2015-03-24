@@ -17,7 +17,11 @@ Reviewing the code for the purpose of utilizing it with a different interface wa
 > Procedural code gets information then makes decisions. Object-oriented code tells objects to do things.
 — Alec Sharp, author of *Smalltalk by Example*
 
-It turned out my code was fairly coupled to terminal, so I decided to create a new repository from scratch. My mentor suggested I consider using the "Tell, Don't Ask" approach in my new version. This philosophy encourages the telling of an object to do something, rather than asking about its state and then making a decision and doing something.
+It turned out my code was fairly coupled to the terminal, so I decided to create a new repository from scratch. My mentor suggested I consider using the "Tell, Don't Ask" approach in my new version. This philosophy encourages the telling of an object to do something, rather than asking about its state and then making a decision and doing something.
+
+Once I wrapped up my revised gem, I moved back to my Sinatra app. The [documentation](http://www.sinatrarb.com/) for Sinatra is pretty decent and helped me get started. I created a controller file and saved it as `TicTacToeController.rb`. I added the 'sinatra' gem to my Gemfile and required 'sinatra' in my controller. Next, I ran `bundle install` to install the `sinatra` gem.
+
+The controller file is where you add routes for your application. In Sinatra, a route is an HTTP request paired with a specific URL and an associated block. HTTP, which stands for Hypertext Transfer Protocol, is a network protocol that underpins communication between clients and servers on the internet. There are five verbs commonly used to make requests: GET, POST, PUT, DELETE, and PATCH. A GET request simply asks a server to return a representation of some resource. A POST request is used to submit data to the server. A PUT request is used to create or update data on the server. A DELETE request removes/destroys a resource on the server.
 
 Related posts:
 Sinatra - Working with sessions

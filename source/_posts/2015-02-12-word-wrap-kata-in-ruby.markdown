@@ -7,11 +7,12 @@ categories:
 ---
 
 I've recently been working through the [Word Wrap Kata](http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html), writing it in Ruby. Since [Uncle Bob's post](http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html) walks through the kata in Java, I thought I'd write a post detailing an implementation in Ruby.
+<!--more-->
 
 ### The General Concept
 
 The idea behind this kata is to write a method that will wrap a string of text according to a specified line length/width. The wrap method will take a string and line length as parameters. It must return the string with appropriate line breaks, ensuring no line is longer than the specified line length. The concept is similar to that of a word processor (i.e. Microsoft Word). Uncle Bob uses TDD to demonstrate the benefit of taking small steps when writing code. If the step you are trying to take in your code seems more like a leap, there is likely a simpler step that could (and should) be taken.
-<!--more-->
+
 ### The First Two Tests
 
 What is the simplest possible case the method must handle? An empty string and line length of zero. So our first test would be:

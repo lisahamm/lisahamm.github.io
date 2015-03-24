@@ -6,8 +6,8 @@ comments: true
 categories:
 ---
 
-This week I have been working on solving [Project Euler](https://projecteuler.net/) problems with Ruby. Project Euler is a website containing mathematical problems that require a computer to solve them. Many of the problems have common themes such as identifying prime numbers or Fibonacci terms. My mentor recommended placing code pertaining to these common themes in modules so the code can be reused by including the module in the problems that require it.
-<!--more-->
+This week I have been working on solving [Project Euler](https://projecteuler.net/) problems with Ruby. Project Euler is a website containing mathematical problems that require a computer to solve them. Many of the problems have common themes such as identifying prime numbers or Fibonacci terms.<!--more--> My mentor recommended placing code pertaining to these common themes in modules so the code can be reused by including the module in the problems that require it.
+
 One of the modules I created was for handling prime numbers. In order to do this, I had to read up on Ruby's "yield" keyword. The yield keyword invokes the block of code associated with the method in which it is being used. A simple implementation looks like this:
 
 ```ruby
