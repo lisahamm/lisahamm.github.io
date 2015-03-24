@@ -103,7 +103,7 @@ example=# select * from test;
  Katie| katie@test.com
 (3 rows)
 ```
-How do we select specific data? This is also referred to as 'querying a table' and can be done by adding some additional code to the `select` command. For instance, this is how you would select all data rows containing a name equal to "Bob":
+How do we select specific data? This is also referred to as 'querying a table' and can be done by adding some additional code to the SQL `select` statement. For instance, this is how you would select all data rows containing a name equal to "Bob":
 
 ```
 example=# select * from test where name='Bob';
