@@ -7,6 +7,7 @@ categories:
 ---
 
 [PostgreSQL](http://www.postgresql.org/) is an open-source object-relational database management system. PostgreSQL is derived from a project completed at UC Berkeley, and it is now the most advanced open-source database available.
+<!--more-->
 
 ### Getting Started
 
