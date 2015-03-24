@@ -41,6 +41,15 @@ Likewise, adding a second column to the "test" table to store email addresses wo
 alter table test add column email text;
 ```
 
+Alternatively, a table can be created with columns in one step as opposed to creating a table, then adding columns, one by one. The "test" table from above could also be created in the following way:
+
+```
+CREATE TABLE test (
+    name      text,
+    email     text
+);
+```
+
 Running `\d <table_name>` will display the table's columns. Executing this for the "test" table would look like:
 
 ```
@@ -162,6 +171,15 @@ select name from test order by name ASC;
 
 Note, "ASC" can be replaced with "DESC" to return data in descending order.
 
+### Updating
+
+Existing rows in a table can be updated using the `UPDATE` command. For example, if Katie's email address changes to "katie@example.com," the following command will update her email in the "test" table:
+
+```
+Update test
+    SET email = 'katie@example.com'
+    WHERE name = 'Katie'
+```
 
 ### Conclusion
 
