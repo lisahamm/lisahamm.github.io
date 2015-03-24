@@ -69,11 +69,17 @@ To create a new branch and simultaneously switch to it, type the following:
 git checkout -b branch_name
 ```
 
+The general format for switching to an existing branch is:
+```
+git checkout branch_name
+```
+
 To switch back to the master branch:
 
 ```
 git checkout master
 ```
+
 Branches can be merged with the following command:
 
 ```
