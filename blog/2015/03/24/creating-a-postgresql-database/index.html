@@ -9,11 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>All Posts - Lisa Hamm</title>
+  <title>Creating a PostgreSQL Database - Lisa Hamm</title>
   <meta name="author" content="Lisa Hamm">
 
   
-  <meta name="description" content="All Posts Creating a PostgreSQL Database PostgreSQL is an open-source object-relational database management system. PostgreSQL is derived from a &hellip;">
+  <meta name="description" content="Creating a PostgreSQL Database written Mar 24th, 2015 PostgreSQL is an open-source object-relational database management system. PostgreSQL is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lisahamm.github.io/posts">
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/03/24/creating-a-postgresql-database">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
@@ -39,54 +39,34 @@
       <img src="/images/home.png"/>
     </a>
 
-    <div class="all-posts">
+    <article role="article" class="full-single-article">
   <div class="container">
     <div class="row">
-      <div class="list-title col-md-offset-3 col-md-6">
-        <h4>All Posts</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="article-list">
-    <div class="container">
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/03/24/creating-a-postgresql-database/">Creating a PostgreSQL Database</a></h2>
-  
-  <p>
-    <p><a href="http://www.postgresql.org/">PostgreSQL</a> is an open-source object-relational database management system. PostgreSQL is derived from a project completed at UC Berkeley, and it is now the most advanced open-source database available.</p>
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Creating a PostgreSQL Database</h1>
+        <div class="meta">
+          written 
 
 
 
+
+
+<time class='entry-date' datetime='2015-03-24T11:08:59-05:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
+          
+
+
+        </div>
+        <p><a href="http://www.postgresql.org/">PostgreSQL</a> is an open-source object-relational database management system. PostgreSQL is derived from a project completed at UC Berkeley, and it is now the most advanced open-source database available.</p>
 
 <h3>Getting Started</h3>
 
-
-
-
 <p>To begin working with PostgreSQL, you will need to download it <a href="http://www.postgresql.org/download/">here</a>. Conceptually, it helps to think of a database as an Excel file. A database is comprised of tables and the tables are comprised of columns. To create a database in the terminal, type: <code>createdb database_name</code>.</p>
-
-
-
 
 <p>In order to start developing the database&rsquo;s schema (i.e. its configuration), type: <code>psql database_name</code>.</p>
 
-
-
-
 <p>To create a table within the database, type: <code>CREATE TABLE table_name ();</code>.</p>
 
-
-
-
 <p>Typing <code>\d</code> will display a list of the database&rsquo;s relations. To illustrate, consider a database with the name &ldquo;example&rdquo; that has a table with the name &ldquo;test.&rdquo; Typing <code>\d</code> will return the following:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -100,39 +80,21 @@
 </span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <h3>Working with tables</h3>
 
-
-
-
 <p>Once you have a database with a table, the next logical step would be to add a column. To do so, type: <code>alter table table_name add column column_name data_type;</code>. For instance, lets say I want to add a column to store names in my &ldquo;test&rdquo; table created above. This would be accomplished by the following code:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column name text;</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Likewise, adding a second column to the &ldquo;test&rdquo; table to store email addresses would be accomplished by the following code:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column email text;</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Running <code>\d &lt;table_name&gt;</code> will display the table&rsquo;s columns. Executing this for the &ldquo;test&rdquo; table would look like:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -148,23 +110,13 @@
 </span><span class='line'> email  | text |</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>In order to get the data for all columns, you can use:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>select * from table_name</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Running this on the &ldquo;test&rdquo; table is not too exciting at the moment since data has yet to be entered:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -176,39 +128,21 @@
 </span><span class='line'>(0 rows)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <h3>Adding data values to a table</h3>
 
-
-
-
 <p>To add data values to a table, type:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>insert into table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#98;&#x6f;&#98;&#x40;&#116;&#101;&#x73;&#116;&#x2e;&#x63;&#x6f;&#109;">&#98;&#x6f;&#x62;&#64;&#116;&#x65;&#115;&#x74;&#x2e;&#x63;&#111;&#109;</a>&rdquo;:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>insert into test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>There is now data in the &ldquo;test&rdquo; table that will be displayed by <code>select *</code>:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -222,17 +156,9 @@
 </span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <h3>Selecting specific data, or, querying a table</h3>
 
-
-
-
 <p>Generally, tables will contain more than one row of data. Consider our test table with the following data rows in it:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -252,12 +178,7 @@
 </span><span class='line'>(3 rows)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>How do we select specific data? This is also referred to as &lsquo;querying a table&rsquo; and can be done by adding some additional code to the <code>select</code> command. For instance, this is how you would select all data rows containing a name equal to &ldquo;Bob&rdquo;:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -273,12 +194,7 @@
 </span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>To select just email addresses for those with a name of &ldquo;Bob&rdquo;:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -294,12 +210,7 @@
 </span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>To select email and name, respectively, for those named &ldquo;Bob&rdquo;:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -315,12 +226,7 @@
 </span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Perhaps there is a need for the number of &ldquo;Bobs&rdquo; in the table. This is found by using <code>count</code>:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -334,12 +240,7 @@
 </span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>It is also possible to limit results to a specific number:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -353,382 +254,39 @@
 </span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Perhaps there is a need for all names to be ordered alphabetically. This can be done with the following line of code:</p>
-
-
-
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>select name from test order by name ASC;</span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <p>Note, &ldquo;ASC&rdquo; can be replaced with &ldquo;DESC&rdquo; to return data in descending order.</p>
 
-
-
-
 <h3>Conclusion</h3>
-
-
-
 
 <p>Thinking of databases as Excel files may help in understanding them conceptually. Knowing specifics relating to querying tables is important because PostgreSQL is well-equipped for doing this efficiently. For this reason, ordering, searching, and other queries should be done by the database and not somewhere else.</p>
 
 
-  </p>
-  <span class="meta">
-    written 
+        <hr class="divider-short"/>
 
-
-
-
-
-<time class='entry-date' datetime='2015-03-24T11:08:59-05:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
+        
+      </div>
+    </div>
+  </div>
 </article>
 
-        </div>
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/03/23/git-basics/" title="Previous Post: Git Basics">&laquo; Previous: Git Basics</a>
+        
+
+        
       </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/03/23/git-basics/">Git Basics</a></h2>
-  
-  <p>
-    <h3>What is Git?</h3>
-
-
-
-
-<p><p>Git is a popular Version Control System that records changes made to files over time. This offers many benefits, such as the capability of reverting changes and comparing changes in files.</p>
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-03-23T10:22:35-05:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/03/23/git-basics/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument/">The Beauty of Using an Options Hash as an Argument</a></h2>
-  
-  <p>
-    <p><p>What makes code beautiful? I recently listened to an interesting <a href="http://devchat.tv/ruby-rogues/what-makes-beautiful-code">Ruby Rogues episode</a> on this topic, so it is something I have been mindful of lately in my own work.</p>
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-02-23'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/02/23/the-beauty-of-using-an-options-hash-as-an-argument/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/02/16/word-wrap-kata-refactoring/">Word Wrap Kata Refactoring</a></h2>
-  
-  <p>
-    <p>In my last <a href="http://www.lisahamm.com/blog/2015/02/12/word-wrap-kata-in-ruby/">post</a>, I walked through the steps involved in Uncle Bob&rsquo;s <a href="http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html">Word Wrap Kata</a>. In this post, I will continue with some refactoring steps specific to a solution written in Ruby.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-02-16'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/02/16/word-wrap-kata-refactoring/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/02/12/word-wrap-kata-in-ruby/">Word Wrap Kata in Ruby</a></h2>
-  
-  <p>
-    <p>I&rsquo;ve recently been working through the <a href="http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html">Word Wrap Kata</a>, writing it in Ruby. Since <a href="http://thecleancoder.blogspot.com/2010/10/craftsman-62-dark-path.html">Uncle Bob&rsquo;s post</a> walks through the kata in Java, I thought I&rsquo;d write a post detailing an implementation in Ruby.</p>
-
-
-
-
-<h3>The General Concept</h3>
-
-
-
-
-<p>The idea behind this kata is to write a method that will wrap a string of text according to a specified line length/width. The wrap method will take a string and line length as parameters. It must return the string with appropriate line breaks, ensuring no line is longer than the specified line length. The concept is similar to that of a word processor (i.e. Microsoft Word). Uncle Bob uses TDD to demonstrate the benefit of taking small steps when writing code. If the step you are trying to take in your code seems more like a leap, there is likely a simpler step that could (and should) be taken.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-02-12'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/02/12/word-wrap-kata-in-ruby/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/02/02/optimizing-solution-to-project-euler-problem-12/">Optimizing Solution to Project Euler Problem 12</a></h2>
-  
-  <p>
-    <p>While working on the Project Euler problems, I came across one (Problem 12) that was taking a very long time to compute. In this blog post, I will go through the initial steps I took to solve the problem, followed by the steps I took to optimize the solution. Problem 12 reads:</p>
-
-
-
-
-<p>The sequence of triangular numbers is generated by adding the natural numbers. So the 7th triangular number would be 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28. The first ten terms would be: 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, &hellip;
-Let us list the factors of the first seven triangular numbers:<br>
- 1: 1<br>
- 3: 1,3<br>
- 6: 1,2,3,6<br>
-10: 1,2,5,10<br>
-15: 1,3,5,15<br>
-21: 1,3,7,21<br>
-28: 1,2,4,7,14,28<br>
-We can see that 28 is the first triangular number to have over five divisors.
-What is the value of the first triangular number to have over five hundred divisors?</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-02-02'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/02/02/optimizing-solution-to-project-euler-problem-12/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/01/22/rubys-yield-keyword/">Ruby&#8217;s Yield Keyword</a></h2>
-  
-  <p>
-    <p>This week I have been working on solving <a href="https://projecteuler.net/">Project Euler</a> problems with Ruby. Project Euler is a website containing mathematical problems that require a computer to solve them. Many of the problems have common themes such as identifying prime numbers or Fibonacci terms. My mentor recommended placing code pertaining to these common themes in modules so the code can be reused by including the module in the problems that require it.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-01-22'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/01/22/rubys-yield-keyword/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/01/15/the-code-kata-practice-for-programmers/">The Code Kata: Practice for Programmers</a></h2>
-  
-  <p>
-    <p>I wrote a <a href="http://www.lisahamm.com/blog/2015/01/09/the-bowling-game-kata/">blog post</a> last week about my experience pairing with my mentor on the Bowling Game Kata. I have continued to work on this kata over the last week and now have more insight into why developers do these. The word “kata” is a Japanese word for “form.” A kata is a karate exercise that is continuously repeated with the intent of making little improvements with each repetition. This concept has been brought into the software development world and is commonly referred to as a Code Kata, which is essentially a practice session for the programmer. Just as an athlete must practice her sport and a musician must practice his instrument, a developer also needs to practice her craft. Each code kata is designed to be a short exercise of which is completed daily for two weeks. The daily practice is designed to ingrain patterns into one’s mind while honing development skills.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-01-15'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/01/15/the-code-kata-practice-for-programmers/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/01/13/useful-keyboard-shortcuts/">Useful Keyboard Shortcuts</a></h2>
-  
-  <p>
-    <p>I’ve been working on improving the time it takes me to complete the Bowling Game Kata. One thing that has been helpful with this is learning keyboard shortcuts that facilitate easy movement throughout the text editor. I am currently coding in Sublime Text 2 on a MacBook. I found <a href="http://sublime-text-unofficial-documentation.readthedocs.org/en/latest/reference/keyboard_shortcuts_osx.html">this webpage</a> that lists several shortcuts. So far, the most useful have been:</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-01-13'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/01/13/useful-keyboard-shortcuts/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
-      
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <article>
-  <h2><a href="/blog/2015/01/09/the-bowling-game-kata/">The Bowling Game Kata</a></h2>
-  
-  <p>
-    <p>Yesterday I sat down with my 8th Light mentor, Doug, and paired on the <a href="http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata">Bowling Game Kata</a> and wrote it in Ruby. The general concept is to write a program capable of scoring a game of bowling and to use test driven development (TDD) in order to do so. A game of bowling is made up of 10 frames in which a player has two opportunities to knock down 10 pins. The player earns a score equal to the number of pins knocked down in each frame, but also has the opportunity to earn additional points for a spare (whatever is earned in the next roll is added to the 10 points in the frame) and a strike (points earned from the following two rolls are added to the 10 points in the frame).</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-<time class='entry-date' datetime='2015-01-09'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2015/01/09/the-bowling-game-kata/">Read on &rarr;</a>
-  
-</article>
-
-        </div>
-      </div>
-      
     </div>
   </div>
 </div>

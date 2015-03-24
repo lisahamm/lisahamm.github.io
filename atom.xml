@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-03-24T09:28:24-05:00</updated>
+  <updated>2015-03-24T13:29:55-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -12,6 +12,223 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a PostgreSQL Database]]></title>
+    <link href="http://lisahamm.github.io/blog/2015/03/24/creating-a-postgresql-database/"/>
+    <updated>2015-03-24T11:08:59-05:00</updated>
+    <id>http://lisahamm.github.io/blog/2015/03/24/creating-a-postgresql-database</id>
+    <content type="html"><![CDATA[<p><a href="http://www.postgresql.org/">PostgreSQL</a> is an open-source object-relational database management system. PostgreSQL is derived from a project completed at UC Berkeley, and it is now the most advanced open-source database available.</p>
+
+<h3>Getting Started</h3>
+
+<p>To begin working with PostgreSQL, you will need to download it <a href="http://www.postgresql.org/download/">here</a>. Conceptually, it helps to think of a database as an Excel file. A database is comprised of tables and the tables are comprised of columns. To create a database in the terminal, type: <code>createdb database_name</code>.</p>
+
+<p>In order to start developing the database&rsquo;s schema (i.e. its configuration), type: <code>psql database_name</code>.</p>
+
+<p>To create a table within the database, type: <code>CREATE TABLE table_name ();</code>.</p>
+
+<p>Typing <code>\d</code> will display a list of the database&rsquo;s relations. To illustrate, consider a database with the name &ldquo;example&rdquo; that has a table with the name &ldquo;test.&rdquo; Typing <code>\d</code> will return the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> List of relations
+</span><span class='line'> Schema | Name | Type  |  Owner
+</span><span class='line'>--------+------+-------+----------
+</span><span class='line'> public | test | table | lisahamm
+</span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Working with tables</h3>
+
+<p>Once you have a database with a table, the next logical step would be to add a column. To do so, type: <code>alter table table_name add column column_name data_type;</code>. For instance, lets say I want to add a column to store names in my &ldquo;test&rdquo; table created above. This would be accomplished by the following code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column name text;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Likewise, adding a second column to the &ldquo;test&rdquo; table to store email addresses would be accomplished by the following code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column email text;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Running <code>\d &lt;table_name&gt;</code> will display the table&rsquo;s columns. Executing this for the &ldquo;test&rdquo; table would look like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# \d test;
+</span><span class='line'>    Table "public.test"
+</span><span class='line'> Column | Type | Modifiers
+</span><span class='line'>--------+------+-----------
+</span><span class='line'> name   | text |
+</span><span class='line'> email  | text |</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to get the data for all columns, you can use:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select * from table_name</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Running this on the &ldquo;test&rdquo; table is not too exciting at the moment since data has yet to be entered:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test;
+</span><span class='line'> name | email
+</span><span class='line'>------+-------
+</span><span class='line'>(0 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Adding data values to a table</h3>
+
+<p>To add data values to a table, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>insert into table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#98;&#x6f;&#98;&#x40;&#116;&#101;&#x73;&#116;&#x2e;&#x63;&#x6f;&#109;">&#98;&#x6f;&#x62;&#64;&#116;&#x65;&#115;&#x74;&#x2e;&#x63;&#111;&#109;</a>&rdquo;:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>insert into test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There is now data in the &ldquo;test&rdquo; table that will be displayed by <code>select *</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test;
+</span><span class='line'> name |       email
+</span><span class='line'>------+--------------------
+</span><span class='line'> Bob  | bob@test.com
+</span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Selecting specific data, or, querying a table</h3>
+
+<p>Generally, tables will contain more than one row of data. Consider our test table with the following data rows in it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test;
+</span><span class='line'> name |       email
+</span><span class='line'>------+--------------------
+</span><span class='line'> Bob  | bob@test.com
+</span><span class='line'> Bob  | bobby@example.com
+</span><span class='line'> Lisa | lisa@test.com
+</span><span class='line'> Katie| katie@test.com
+</span><span class='line'>(3 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>How do we select specific data? This is also referred to as &lsquo;querying a table&rsquo; and can be done by adding some additional code to the <code>select</code> command. For instance, this is how you would select all data rows containing a name equal to &ldquo;Bob&rdquo;:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test where name='Bob';
+</span><span class='line'> name |       email
+</span><span class='line'>------+-------------------
+</span><span class='line'> Bob  | bob@test.com
+</span><span class='line'> Bob  | bobby@example.com
+</span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To select just email addresses for those with a name of &ldquo;Bob&rdquo;:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select email from test where name='Bob';
+</span><span class='line'>       email
+</span><span class='line'>-------------------
+</span><span class='line'> bob@test.com
+</span><span class='line'> bobby@example.com
+</span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To select email and name, respectively, for those named &ldquo;Bob&rdquo;:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select email,name from test where name='Bob';
+</span><span class='line'>       email       | name
+</span><span class='line'>-------------------+------
+</span><span class='line'> bob@test.com      | Bob
+</span><span class='line'> bobby@example.com | Bob
+</span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Perhaps there is a need for the number of &ldquo;Bobs&rdquo; in the table. This is found by using <code>count</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select count(*) from test where name='Bob';
+</span><span class='line'>count
+</span><span class='line'>-------
+</span><span class='line'>     2
+</span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is also possible to limit results to a specific number:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select email,name from test where name='Bob' limit 1;
+</span><span class='line'>       email       | name
+</span><span class='line'>-------------------+------
+</span><span class='line'> bob@test.com      | Bob
+</span><span class='line'>(1 row)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Perhaps there is a need for all names to be ordered alphabetically. This can be done with the following line of code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select name from test order by name ASC;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note, &ldquo;ASC&rdquo; can be replaced with &ldquo;DESC&rdquo; to return data in descending order.</p>
+
+<h3>Conclusion</h3>
+
+<p>Thinking of databases as Excel files may help in understanding them conceptually. Knowing specifics relating to querying tables is important because PostgreSQL is well-equipped for doing this efficiently. For this reason, ordering, searching, and other queries should be done by the database and not somewhere else.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git Basics]]></title>
