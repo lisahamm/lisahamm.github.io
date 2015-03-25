@@ -66,7 +66,7 @@ example=# \d test;
 In order to get the data for all rows and columns, you can use:
 
 ```
-SELECT * FROM table_name
+SELECT * FROM table_name;
 ```
 Running this on the "test" table is not too exciting at the moment since data has yet to be entered:
 
