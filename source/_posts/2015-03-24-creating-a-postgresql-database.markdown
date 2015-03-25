@@ -16,8 +16,10 @@ To begin working with PostgreSQL, you will need to download it [here](http://www
 
 In order to start developing the database's schema (i.e. its configuration), type: `psql database_name`.
 
-To create a table within the database, type: `CREATE TABLE table_name ();`.
-* Note SQL convention is to write commands in all caps and arguments in lowercase.
+To create a table within the database, type: `CREATE TABLE table_name ();`.<br>
+
+_Note, SQL convention is to write commands in all caps and arguments in lowercase._<br>
+
 Typing `\d` will display a list of the database's relations. To illustrate, consider a database with the name "example" that has a table with the name "test." Typing `\d` will return the following:
 
 ```
