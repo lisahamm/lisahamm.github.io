@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-03-24T16:08:02-05:00</updated>
+  <updated>2015-03-25T10:28:00-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -18,20 +18,20 @@
     <link href="http://lisahamm.github.io/blog/2015/03/24/creating-a-postgresql-database/"/>
     <updated>2015-03-24T11:08:59-05:00</updated>
     <id>http://lisahamm.github.io/blog/2015/03/24/creating-a-postgresql-database</id>
-    <content type="html"><![CDATA[<p><a href="http://www.postgresql.org/">PostgreSQL</a> is an open-source object-relational database management system. PostgreSQL is derived from a project completed at UC Berkeley, and it is now the most advanced open-source database available.</p>
+    <content type="html"><![CDATA[<p><a href="http://www.postgresql.org/">PostgreSQL</a> is an open-source object-relational database management system. PostgreSQL is derived from a project completed at UC Berkeley, and it is now one of the most advanced open-source database available.</p>
 
 <!--more-->
 
 
 <h3>Getting Started</h3>
 
-<p>To begin working with PostgreSQL, you will need to download it <a href="http://www.postgresql.org/download/">here</a>. Conceptually, it helps to think of a database as an Excel file. A database is comprised of tables and the tables are comprised of columns. To create a database in the terminal, type: <code>createdb database_name</code>.</p>
+<p>To begin working with PostgreSQL, you will need to download it <a href="http://www.postgresql.org/download/">here</a>. Conceptually, it helps to think of a database as an Excel file. A database is comprised of tables and the tables are comprised of columns and rows. To create a database in the terminal, type: <code>createdb database_name</code>.</p>
 
 <p>In order to start developing the database&rsquo;s schema (i.e. its configuration), type: <code>psql database_name</code>.</p>
 
-<p>To create a table within the database, type: <code>CREATE TABLE table_name ();</code>.</p>
-
-<p>Typing <code>\d</code> will display a list of the database&rsquo;s relations. To illustrate, consider a database with the name &ldquo;example&rdquo; that has a table with the name &ldquo;test.&rdquo; Typing <code>\d</code> will return the following:</p>
+<p>To create a table within the database, type: <code>CREATE TABLE table_name ();</code>.
+* Note SQL convention is to write commands in all caps and arguments in lowercase.
+Typing <code>\d</code> will display a list of the database&rsquo;s relations. To illustrate, consider a database with the name &ldquo;example&rdquo; that has a table with the name &ldquo;test.&rdquo; Typing <code>\d</code> will return the following:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -47,16 +47,16 @@
 
 <h3>Working with tables</h3>
 
-<p>Once you have a database with a table, the next logical step would be to add a column. To do so, type: <code>alter table table_name add column column_name data_type;</code>. For instance, lets say I want to add a column to store names in my &ldquo;test&rdquo; table created above. This would be accomplished by the following code:</p>
+<p>Once you have a database with a table, the next logical step would be to add a column. To do so, type: <code>ALTER TABLE table_name ADD COLUMN column_name DATA_TYPE;</code>. For instance, lets say I want to add a column to store names in my &ldquo;test&rdquo; table created above. This would be accomplished by the following code:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column name text;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ALTER TABLE test ADD COLUMN name TEXT;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Likewise, adding a second column to the &ldquo;test&rdquo; table to store email addresses would be accomplished by the following code:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>alter table test add column email text;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ALTER TABLE test ADD COLUMN email TEXT;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Alternatively, a table can be created with columns in one step as opposed to creating a table, then adding columns, one by one. The &ldquo;test&rdquo; table from above could also be created in the following way:</p>
@@ -87,10 +87,10 @@
 </span><span class='line'> email  | text |</span></code></pre></td></tr></table></div></figure>
 
 
-<p>In order to get the data for all columns, you can use:</p>
+<p>In order to get the data for all rows and columns, you can use:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select * from table_name</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT * FROM table_name</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Running this on the &ldquo;test&rdquo; table is not too exciting at the moment since data has yet to be entered:</p>
@@ -99,7 +99,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test;
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT * FROM test;
 </span><span class='line'> name | email
 </span><span class='line'>------+-------
 </span><span class='line'>(0 rows)</span></code></pre></td></tr></table></div></figure>
@@ -110,13 +110,13 @@
 <p>To add data values to a table, type:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>insert into table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#98;&#111;&#98;&#64;&#x74;&#101;&#115;&#x74;&#x2e;&#99;&#x6f;&#109;">&#98;&#x6f;&#x62;&#64;&#x74;&#x65;&#115;&#x74;&#46;&#99;&#111;&#109;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x62;&#x6f;&#98;&#x40;&#x74;&#101;&#x73;&#x74;&#x2e;&#99;&#x6f;&#109;">&#98;&#x6f;&#x62;&#64;&#x74;&#x65;&#115;&#116;&#46;&#99;&#111;&#109;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>insert into test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
 
 
 <p>There is now data in the &ldquo;test&rdquo; table that will be displayed by <code>select *</code>:</p>
@@ -126,7 +126,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test;
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT * FROM test;
 </span><span class='line'> name |       email
 </span><span class='line'>------+--------------------
 </span><span class='line'> Bob  | bob@test.com
@@ -145,7 +145,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test;
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT * FROM test;
 </span><span class='line'> name |       email
 </span><span class='line'>------+--------------------
 </span><span class='line'> Bob  | bob@test.com
@@ -163,7 +163,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select * from test where name='Bob';
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT * FROM test WHERE name='Bob';
 </span><span class='line'> name |       email
 </span><span class='line'>------+-------------------
 </span><span class='line'> Bob  | bob@test.com
@@ -179,7 +179,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select email from test where name='Bob';
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT email FROM test WHERE name='Bob';
 </span><span class='line'>       email
 </span><span class='line'>-------------------
 </span><span class='line'> bob@test.com
@@ -195,7 +195,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select email,name from test where name='Bob';
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT email,name FROM test WHERE name='Bob';
 </span><span class='line'>       email       | name
 </span><span class='line'>-------------------+------
 </span><span class='line'> bob@test.com      | Bob
@@ -210,7 +210,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select count(*) from test where name='Bob';
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT count(*) FROM test WHERE name='Bob';
 </span><span class='line'>count
 </span><span class='line'>-------
 </span><span class='line'>     2
@@ -224,7 +224,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>example=# select email,name from test where name='Bob' limit 1;
+</pre></td><td class='code'><pre><code class=''><span class='line'>example=# SELECT email,name FROM test WHERE name='Bob' LIMIT 1;
 </span><span class='line'>       email       | name
 </span><span class='line'>-------------------+------
 </span><span class='line'> bob@test.com      | Bob
@@ -234,7 +234,7 @@
 <p>Perhaps there is a need for all names to be ordered alphabetically. This can be done with the following line of code:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select name from test order by name ASC;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT name FROM test ORDER BY name ASC;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Note, &ldquo;ASC&rdquo; can be replaced with &ldquo;DESC&rdquo; to return data in descending order.</p>
@@ -246,7 +246,7 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Update test
+</pre></td><td class='code'><pre><code class=''><span class='line'>UPDATE test
 </span><span class='line'>    SET email = 'katie@example.com'
 </span><span class='line'>    WHERE name = 'Katie'</span></code></pre></td></tr></table></div></figure>
 
