@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-04-07T15:00:00-05:00</updated>
+  <updated>2015-04-07T15:03:27-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -193,7 +193,7 @@
 
 <p>Once the EchoServer class has been created, it is time to try running the server. Remember, the program requires the port number commandline argument in order to run. In IntelliJ, you can set program arguments by going to the &ldquo;Run&rdquo; menu, clicking on &ldquo;Edit Configurations,&rdquo; and filling in the &ldquo;Program Arguments&rdquo; field inside the &ldquo;Configuration&rdquo; tab. If the port number argument is provided in this way, the server will start running when the program is run through clicking IntelliJ&rsquo;s &ldquo;Run&rdquo; button.</p>
 
-<p>Telnet can be used to connect to the server through the terminal. Telnet is a network protocol, and it is also an application that uses the protocol. In the terminal, type the following to connect to the server:</p>
+<p><a href="http://www.telnet.org/">Telnet</a>, a network protocol and also an application that uses the protocol, can be used to connect to the server through the terminal. In the terminal, type the following to connect to the server:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">$</span> <span class="n">telnet</span> <span class="n">servername</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">ip</span> <span class="n">port</span><span class="o">-</span><span class="n">number</span>
@@ -310,7 +310,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#98;&#x6f;&#98;&#x40;&#116;&#101;&#115;&#116;&#46;&#99;&#x6f;&#x6d;">&#x62;&#111;&#x62;&#64;&#x74;&#101;&#x73;&#116;&#x2e;&#99;&#111;&#109;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x62;&#x6f;&#98;&#64;&#x74;&#101;&#x73;&#116;&#x2e;&#99;&#x6f;&#x6d;">&#98;&#x6f;&#98;&#64;&#116;&#x65;&#115;&#116;&#x2e;&#99;&#x6f;&#x6d;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
