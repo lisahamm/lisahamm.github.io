@@ -117,7 +117,7 @@ public class EchoServer {
 
 Once the EchoServer class has been created, it is time to try running the server. Remember, the program requires the port number commandline argument in order to run. In IntelliJ, you can set program arguments by going to the "Run" menu, clicking on "Edit Configurations," and filling in the "Program Arguments" field inside the "Configuration" tab. If the port number argument is provided in this way, the server will start running when the program is run through clicking IntelliJ's "Run" button.
 
-Telnet can be used to connect to the server through the terminal. Telnet is a network protocol, and it is also an application that uses the protocol. In the terminal, type the following to connect to the server:
+[Telnet](http://www.telnet.org/), a network protocol and also an application that uses the protocol, can be used to connect to the server through the terminal. In the terminal, type the following to connect to the server:
 
 ```
 $ telnet servername-or-ip port-number
