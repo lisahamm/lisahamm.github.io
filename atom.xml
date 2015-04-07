@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-04-07T15:03:27-05:00</updated>
+  <updated>2015-04-07T16:07:03-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -114,9 +114,11 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The code above declares instances of ServerSocket, Socket, PrintWriter, and BufferedReader as resources, then writes &ldquo;Hello&rdquo; to the output stream, reads input from the client, and then writes the input to its output stream (creating the &lsquo;echo&rsquo;). The ServerSocket constructor will throw an exception if it is unable to be created on the specified port, so the catch statement prints out the corresponding message when this is the case.</p>
+<p>The code above declares instances of ServerSocket, Socket, PrintWriter, and BufferedReader as resources. If the ServerSocket, which listens for connection requests from clients, is successfully created and bound to the specified port number, the program moves on to this line of code: <code>Socket clientSocket = serverSocket.accept();</code>. The <code>accept</code> method returns a new Socket object, with its remote address and port set to that of the client, bound to the specified port number of the server. This allows the server to communicate with the client using this new socket, while the ServerSocket continues to listen for connection requests.</p>
 
-<p>Putting this all together gives the following program:</p>
+<p>The program writes &ldquo;Hello&rdquo; to the output stream, reads input from the client, and then writes the input to its output stream (creating the &lsquo;echo&rsquo;). The ServerSocket constructor will throw an exception if it is unable to be created on the specified port, so the catch statement prints out the corresponding message when this is the case.</p>
+
+<p>Putting this all together produces the following program:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -310,7 +312,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x62;&#x6f;&#98;&#64;&#x74;&#101;&#x73;&#116;&#x2e;&#99;&#x6f;&#x6d;">&#98;&#x6f;&#98;&#64;&#116;&#x65;&#115;&#116;&#x2e;&#99;&#x6f;&#x6d;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x62;&#x6f;&#x62;&#64;&#116;&#101;&#x73;&#x74;&#x2e;&#99;&#111;&#109;">&#98;&#111;&#98;&#64;&#x74;&#x65;&#x73;&#116;&#46;&#x63;&#111;&#109;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
