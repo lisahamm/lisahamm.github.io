@@ -72,9 +72,11 @@ try (
 }
 ```
 
-The code above declares instances of ServerSocket, Socket, PrintWriter, and BufferedReader as resources, then writes "Hello" to the output stream, reads input from the client, and then writes the input to its output stream (creating the 'echo'). The ServerSocket constructor will throw an exception if it is unable to be created on the specified port, so the catch statement prints out the corresponding message when this is the case.
+The code above declares instances of ServerSocket, Socket, PrintWriter, and BufferedReader as resources. If the ServerSocket, which listens for connection requests from clients, is successfully created and bound to the specified port number, the program moves on to this line of code: `Socket clientSocket = serverSocket.accept();`. The `accept` method returns a new Socket object, with its remote address and port set to that of the client, bound to the specified port number of the server. This allows the server to communicate with the client using this new socket, while the ServerSocket continues to listen for connection requests.
 
-Putting this all together gives the following program:
+The program writes "Hello" to the output stream, reads input from the client, and then writes the input to its output stream (creating the 'echo'). The ServerSocket constructor will throw an exception if it is unable to be created on the specified port, so the catch statement prints out the corresponding message when this is the case.
+
+Putting this all together produces the following program:
 
 ```
 import java.net.*;
