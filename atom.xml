@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-03-25T11:32:02-05:00</updated>
+  <updated>2015-04-07T15:00:00-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Creating an Echo Server]]></title>
+    <link href="http://lisahamm.github.io/blog/2015/04/06/creating-an-echo-server/"/>
+    <updated>2015-04-06T15:03:52-05:00</updated>
+    <id>http://lisahamm.github.io/blog/2015/04/06/creating-an-echo-server</id>
+    <content type="html"><![CDATA[<p>One of the projects 8th Light has its residents complete is building a web server. This week, I started working on a couple of programs to ease into the world of web servers.<!--more--> The first is a simple Echo Server program that will say &ldquo;Hello&rdquo; upon connection and repeat all of the messages sent to it by the client. Subsequently, I will build upon the program to create a chat server that allows multiple connections. When one person enters text, everyone connected to the server will see it.</p>
+
+<p>I have not written any Java code for some time now, so I began by downloading <a href="https://www.jetbrains.com/idea/download/">IntelliJ</a> which seems to be the Java IDE of choice at 8th Light. Next, I began reading about the Transmission Control Protocl (TCP) and sockets. <a href="https://docs.oracle.com/javase/tutorial/networking/sockets/index.html">Oracle&rsquo;s Java tutorials</a> proved to be a useful resource in learning about both. The rest of this post is an overview of what I learned from the tutorial, and my experience creating, running, and connecting to an Echo Server.</p>
+
+<h3>TCP</h3>
+
+<p>TCP is a network communication protocol that provides a reliable channel for a client and a server to communicate with eachother. Client-server applications on the internet communicate over TCP by establishing a connection between the client and server and binding a socket to each end of the connection. The server and the client read from and write to their respective socket.</p>
+
+<h3>What is a socket?</h3>
+
+<p>A socket is defined as &ldquo;one endpoint of a two-way communication link between two programs running on the network. A socket is bound to a port number so that the TCP layer can identify the application that data is destined to be sent to.&rdquo; <a href="https://docs.oracle.com/javase/tutorial/networking/sockets/definition.html">(Oracle Documentation)</a>. The server continuously listens to its socket for connection requests. When a client wants to make a request to the server, it binds to a local port number to identify itself, and then uses the host name and port number of the server&rsquo;s socket to request a connection. When a connection is established, the server binds a new socket to the same local port so it can listen for incoming requests as well as communicate with the connected client. Every connection can be uniquely identified by its sockets, since these endpoints are a combination of an IP address and port number.</p>
+
+<h3>Creating a socket using Java</h3>
+
+<p>A Socket class is included in the java.net package and allows Java programs to communicate in a platform-independent way, by hiding system-specific details from the program. A ServerSocket class is also included and allows servers to listen for requests and make connections.</p>
+
+<h3>Building an EchoServer</h3>
+
+<p>The EchoServer program will take a port number as a commandline argument, which is used as the location for binding the ServerSocket object that will listen for connection requests from a client. Let&rsquo;s take a look at the start of the EchoServer program:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoServer</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Usage: java EchoServer &lt;port number&gt;&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">portNumber</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The main method will return an error if it is not given exactly one argument to use as the port number. If exactly one argument is passed in, the program will set its <code>portNumber</code> variable to the argument value.</p>
+
+<p>Here are the next few steps:
+(1) Create the server socket to bind to the server&rsquo;s specified port.
+(2) Accept the connection request from the client.
+(3) Open a <code>PrintWriter</code> on the socket&rsquo;s output stream.
+(4) Open a <code>BufferedReader</code> on the socket&rsquo;s input stream.</p>
+
+<p>These steps can be completed in a try-with-resources statement to ensure the sockets, PrintWriter, and BufferedReader are closed at the end of the statement.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">try</span> <span class="o">(</span>
+</span><span class='line'>      <span class="n">ServerSocket</span> <span class="n">serverSocket</span> <span class="o">=</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nf">ServerSocket</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]));</span>
+</span><span class='line'>      <span class="n">Socket</span> <span class="n">clientSocket</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nf">PrintWriter</span><span class="o">(</span><span class="n">clientSocket</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">clientSocket</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
+</span><span class='line'><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Exception caught when trying to listen on port &quot;</span>
+</span><span class='line'>        <span class="o">+</span> <span class="n">portNumber</span> <span class="o">+</span> <span class="s">&quot; or listening for a connection&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code above declares instances of ServerSocket, Socket, PrintWriter, and BufferedReader as resources, then writes &ldquo;Hello&rdquo; to the output stream, reads input from the client, and then writes the input to its output stream (creating the &lsquo;echo&rsquo;). The ServerSocket constructor will throw an exception if it is unable to be created on the specified port, so the catch statement prints out the corresponding message when this is the case.</p>
+
+<p>Putting this all together gives the following program:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">java.net.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoServer</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Usage: java EchoServer &lt;port number&gt;&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">portNumber</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">try</span> <span class="o">(</span>
+</span><span class='line'>                <span class="n">ServerSocket</span> <span class="n">serverSocket</span> <span class="o">=</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">ServerSocket</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]));</span>
+</span><span class='line'>                <span class="n">Socket</span> <span class="n">clientSocket</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">PrintWriter</span><span class="o">(</span><span class="n">clientSocket</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">clientSocket</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
+</span><span class='line'>        <span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
+</span><span class='line'>            <span class="k">while</span> <span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Exception caught when trying to listen on port &quot;</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="n">portNumber</span> <span class="o">+</span> <span class="s">&quot; or listening for a connection&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Connecting with the server</h3>
+
+<p>Once the EchoServer class has been created, it is time to try running the server. Remember, the program requires the port number commandline argument in order to run. In IntelliJ, you can set program arguments by going to the &ldquo;Run&rdquo; menu, clicking on &ldquo;Edit Configurations,&rdquo; and filling in the &ldquo;Program Arguments&rdquo; field inside the &ldquo;Configuration&rdquo; tab. If the port number argument is provided in this way, the server will start running when the program is run through clicking IntelliJ&rsquo;s &ldquo;Run&rdquo; button.</p>
+
+<p>Telnet can be used to connect to the server through the terminal. Telnet is a network protocol, and it is also an application that uses the protocol. In the terminal, type the following to connect to the server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">$</span> <span class="n">telnet</span> <span class="n">servername</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">ip</span> <span class="n">port</span><span class="o">-</span><span class="n">number</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If the connection is established, a message will appear in the terminal stating something like, &ldquo;Connected to host-name.&rdquo; With this particular server, a &ldquo;Hello&rdquo; message should also be printed in the terminal. To see the echo in action, type any message, hit enter, and the same message should be returned and printed in the terminal.</p>
+
+<h3>Summary</h3>
+
+<p>TCP provides reliable communication between a server and client. The server has a designated port with a socket listening for connection requests from clients. When the server-client connection is established successfully, both the server and the client communicate through their respective sockets by reading from the input stream and writing to the output stream.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Creating a PostgreSQL Database]]></title>
@@ -115,7 +310,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x62;&#x6f;&#98;&#64;&#x74;&#101;&#115;&#116;&#x2e;&#99;&#111;&#109;">&#98;&#x6f;&#98;&#64;&#x74;&#101;&#115;&#116;&#x2e;&#x63;&#111;&#x6d;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#98;&#x6f;&#98;&#x40;&#116;&#101;&#115;&#116;&#46;&#99;&#x6f;&#x6d;">&#x62;&#111;&#x62;&#64;&#x74;&#101;&#x73;&#116;&#x2e;&#99;&#111;&#109;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
