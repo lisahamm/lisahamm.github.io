@@ -119,13 +119,13 @@ public class EchoServer {
 
 Once the EchoServer class has been created, it is time to try running the server. Remember, the program requires the port number commandline argument in order to run. In IntelliJ, you can set program arguments by going to the "Run" menu, clicking on "Edit Configurations," and filling in the "Program Arguments" field inside the "Configuration" tab. If the port number argument is provided in this way, the server will start running when the program is run through clicking IntelliJ's "Run" button.
 
-[Telnet](http://www.telnet.org/), a network protocol and also an application that uses the protocol, can be used to connect to the server through the terminal. In the terminal, type the following to connect to the server:
-
+[Telnet](http://www.telnet.org/), a network protocol and also an application that uses the protocol, can be used to connect to the server through the terminal. In the terminal, use the following format to connect to the server: `$ telnet servername-or-ip port-number`. For example:
 ```
-$ telnet servername-or-ip port-number
+$ telnet 127.0.0.1 4444
 ```
+Conventionally, 127.0.0.1 is a reserved IP address used as loopback address on computers. This means when a message is sent to it, it is re-routed to the computer's own TCP/IP stack without being sent out of the computer.
 
-If the connection is established, a message will appear in the terminal stating something like, "Connected to host-name." With this particular server, a "Hello" message should also be printed in the terminal. To see the echo in action, type any message, hit enter, and the same message should be returned and printed in the terminal.
+The format of If the connection is established, a message will appear in the terminal stating something like, "Connected to host-name." With this particular server, a "Hello" message should also be printed in the terminal. To see the echo in action, type any message, hit enter, and the same message should be returned and printed in the terminal.
 
 ### Summary
 
