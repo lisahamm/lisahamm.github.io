@@ -233,14 +233,16 @@
 
 <p>Once the EchoServer class has been created, it is time to try running the server. Remember, the program requires the port number commandline argument in order to run. In IntelliJ, you can set program arguments by going to the &ldquo;Run&rdquo; menu, clicking on &ldquo;Edit Configurations,&rdquo; and filling in the &ldquo;Program Arguments&rdquo; field inside the &ldquo;Configuration&rdquo; tab. If the port number argument is provided in this way, the server will start running when the program is run through clicking IntelliJ&rsquo;s &ldquo;Run&rdquo; button.</p>
 
-<p><a href="http://www.telnet.org/">Telnet</a>, a network protocol and also an application that uses the protocol, can be used to connect to the server through the terminal. In the terminal, type the following to connect to the server:</p>
+<p><a href="http://www.telnet.org/">Telnet</a>, a network protocol and also an application that uses the protocol, can be used to connect to the server through the terminal. In the terminal, use the following format to connect to the server: <code>$ telnet servername-or-ip port-number</code>. For example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">$</span> <span class="n">telnet</span> <span class="n">servername</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">ip</span> <span class="n">port</span><span class="o">-</span><span class="n">number</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">$</span> <span class="n">telnet</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span> <span class="mi">4444</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If the connection is established, a message will appear in the terminal stating something like, &ldquo;Connected to host-name.&rdquo; With this particular server, a &ldquo;Hello&rdquo; message should also be printed in the terminal. To see the echo in action, type any message, hit enter, and the same message should be returned and printed in the terminal.</p>
+<p>Conventionally, 127.0.0.1 is a reserved IP address used as loopback address on computers. This means when a message is sent to it, it is re-routed to the computer&rsquo;s own TCP/IP stack without being sent out of the computer.</p>
+
+<p>The format of If the connection is established, a message will appear in the terminal stating something like, &ldquo;Connected to host-name.&rdquo; With this particular server, a &ldquo;Hello&rdquo; message should also be printed in the terminal. To see the echo in action, type any message, hit enter, and the same message should be returned and printed in the terminal.</p>
 
 <h3>Summary</h3>
 
@@ -265,6 +267,8 @@
           <a class="pull-left" href="/blog/2015/03/24/creating-a-postgresql-database/" title="Previous Post: Creating a PostgreSQL Database">&laquo; Previous: Creating a PostgreSQL Database</a>
         
 
+        
+          <a class="pull-right" href="/blog/2015/04/07/creating-a-chat-server/" title="Next Post: Creating a Chat Server">Next: Creating a Chat Server &raquo;</a>
         
       </div>
     </div>
