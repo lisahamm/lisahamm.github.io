@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Creating a Chat Server"
+title: "Creating a Chat Server: Part 1"
 date: 2015-04-07 16:40:15 -0500
 comments: true
 categories:
