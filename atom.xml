@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-04-13T13:52:19-05:00</updated>
+  <updated>2015-04-13T13:56:43-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a Chat Server: Part 2]]></title>
+    <link href="http://lisahamm.github.io/blog/2015/04/13/creating-a-chat-server-part-2/"/>
+    <updated>2015-04-13T13:54:18-05:00</updated>
+    <id>http://lisahamm.github.io/blog/2015/04/13/creating-a-chat-server-part-2</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Creating a Chat Server: Part 1]]></title>
@@ -291,7 +300,7 @@
 
 <h3>Next steps</h3>
 
-<p>While the current chat server is functioning, there are still improvements to be made. My next post will build upon this one, going into detail on the next steps.</p>
+<p>While the current chat server is functioning, there are still improvements to be made. My next post will build upon this one, going into detail on the next steps. You can check out the code on my <a href="https://github.com/lisahamm/JavaChatServer">github</a>.</p>
 ]]></content>
   </entry>
   
@@ -596,7 +605,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x62;&#111;&#98;&#64;&#x74;&#101;&#115;&#x74;&#x2e;&#99;&#x6f;&#x6d;">&#98;&#x6f;&#x62;&#64;&#x74;&#x65;&#115;&#x74;&#x2e;&#99;&#x6f;&#109;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x62;&#x6f;&#x62;&#x40;&#x74;&#x65;&#115;&#x74;&#46;&#x63;&#x6f;&#109;">&#98;&#111;&#98;&#x40;&#116;&#x65;&#115;&#116;&#46;&#x63;&#x6f;&#x6d;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
