@@ -167,4 +167,4 @@ public static void main(String[] args) throws IOException {
 
 ### Next steps
 
-While the current chat server is functioning, there are still improvements to be made. My next post will build upon this one, going into detail on the next steps.
+While the current chat server is functioning, there are still improvements to be made. My next post will build upon this one, going into detail on the next steps. You can check out the code on my [github](https://github.com/lisahamm/JavaChatServer).
