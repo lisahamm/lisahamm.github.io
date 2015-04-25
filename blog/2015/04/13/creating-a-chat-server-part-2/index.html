@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Creating a Chat Server: Part 2 - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Creating a Chat Server: Part 2 written Apr 13th, 2015 After creating a working chat server (able to connect with multiple clients and display user &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/04/13/creating-a-chat-server-part-2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Creating a Chat Server: Part 2</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+<time class='entry-date' datetime='2015-04-13T13:54:18-05:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
+          
+
+
+        </div>
+        <p>After <a href="http://www.lisahamm.com/blog/2015/04/07/creating-a-chat-server/">creating a working chat server</a> (able to connect with multiple clients and display user input to all clients), I received some feedback and set out to improve my current code. In this post, I will walk through the steps I took to respond to the feedback I received. <!--more--></p>
+
+<h3>Thread-safe code</h3>
+
+<p>In the first iteration of my chat server, I created a set containing the printWriters of all connected sockets:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private static Set&lt;PrintWriter&gt; printWriters = new HashSet&lt;PrintWriter&gt;();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While this was working when I manually tested my server, it is not a sound way of accomplishing what I was trying to do. When working with threads, it is important to make sure the code is thread-safe. If multiple threads try to access the same thing at once, issues may arise. In this case, the set should be synchronized in order to guarantee serial access and prevent any unanticipated problems. This way, only one thread can utilize the set a time. Using the <code>Collections.synchronizedSet</code> method, I refactored the line of code above as follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private static Set&lt;PrintWriter&gt; printWriters = Collections.synchronizedSet(new HashSet&lt;PrintWriter&gt;());</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Eliminate dependencies</h3>
+
+<p>Although the first iteration of the chat server was functioning, its overall design left room for improvement. In its current state, the ChatThread class is fairly coupled to the ChatServer class. It knows about the printWriter HashSet in the server. In order to eliminate this code smell, I began exploring the observer pattern.</p>
+
+<h3>The Observer Pattern</h3>
+
+<blockquote><p>&ldquo;Observer is one of those patterns that, once you understand it, you see uses for it everywhere.&rdquo;
+-Uncle Bob in <em>Agile Software Development: Priniciples, Patterns, and Practices</em></p></blockquote>
+
+<p>The Observer Pattern is typically used for a one-to-many dependency among objects, such that when one object changes, all dependent objects are notified. The independent object is typically referred to as the Concrete Observable and the dependent objects are Concrete Observers. The concrete observable object inherits from an abstract class or interface usually known as the Observable or Subject, which contains a method to register a new observer and a method to notify observers when the observable changes. Concrete Observers implement the Observer interface, which contains an update method (see the UML diagram below).</p>
+
+<p><img src="/images/observer_uml.png" /></p>
+
+<p>So, how could I apply this pattern to a chat server? At first, it seemed simple to me: there were many ChatThread objects that needed to be updated each time a user submitted text. If the chatThread was the observer, then I thought the only object I had left, the server, would be the observable. However, it didn&rsquo;t seem like this should fall into the server&rsquo;s responsibility. After considering different possibilities for this design, I decided to implement a new <code>ChatSubject</code> class to take on the role of the Subject:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ChatSubject</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">Vector</span> <span class="n">itsObservers</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Vector</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyObservers</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">synchronized</span> <span class="o">(</span><span class="n">itsObservers</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">Iterator</span> <span class="n">i</span> <span class="o">=</span> <span class="n">itsObservers</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>            <span class="k">while</span> <span class="o">(</span><span class="n">i</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">Observer</span> <span class="n">observer</span> <span class="o">=</span> <span class="o">(</span><span class="n">Observer</span><span class="o">)</span> <span class="n">i</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">observer</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerObserver</span><span class="o">(</span><span class="n">Observer</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">itsObservers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deregisterObserver</span><span class="o">(</span><span class="n">Observer</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">itsObservers</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The new <code>ChatSubject</code> class would be responsible for registering, deregistering, and notifying observers (the other chat threads in this case). An instance of ChatSubject would be initialized in the ChatServer class and subsequently passed into the ChatThread during its initialization. In the ChatThread&rsquo;s <code>run()</code> method, the thread instance is registered with the ChatSubject, and when the user submits input, ChatSubject&rsquo;s <code>notifyObservers()</code> method is called. My code can be seen below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ChatThread</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="kd">implements</span> <span class="n">Observer</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">Socket</span> <span class="n">clientSocket</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">ChatSubject</span> <span class="n">chatSubject</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">PrintWriter</span> <span class="n">printWriter</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">ChatThread</span><span class="o">(</span><span class="n">Socket</span> <span class="n">socket</span><span class="o">,</span> <span class="n">ChatSubject</span> <span class="n">chatSubject</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="s">&quot;ChatThread&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">clientSocket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">chatSubject</span> <span class="o">=</span> <span class="n">chatSubject</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">(</span>
+</span><span class='line'>                <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">PrintWriter</span><span class="o">(</span><span class="n">clientSocket</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">clientSocket</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()))</span>
+</span><span class='line'>        <span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">this</span><span class="o">.</span><span class="na">printWriter</span> <span class="o">=</span> <span class="n">out</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">chatSubject</span><span class="o">.</span><span class="na">registerObserver</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello, there. Please enter a username to join the chat: &quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
+</span><span class='line'>            <span class="k">while</span> <span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="n">username</span> <span class="o">+</span> <span class="s">&quot; says: &quot;</span> <span class="o">+</span> <span class="n">inputLine</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">inputLine</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;Bye&quot;</span><span class="o">))</span>
+</span><span class='line'>                    <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">chatSubject</span><span class="o">.</span><span class="na">notifyObservers</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">clientSocket</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">printWriter</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>How has this helped improve the code?</h3>
+
+<p>By using a form of the Observer pattern, the code was able to become less coupled and more flexible. The chat thread class is no longer aware of the server class. The Observer pattern also creates flexibility in that Observers can potentially be of any class, as long as they implement the Observer interface. Different types of Observers may need to update in different ways and the Observer&rsquo;s <code>update()</code> method allows for this while hiding the implementation details.</p>
+
+<p>The next piece of feedback I addressed was properly shutting down the server. My next post will detail this process.</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/04/07/creating-a-chat-server/" title="Previous Post: Creating a Chat Server: Part 1">&laquo; Previous: Creating a Chat Server: Part 1</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
