@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Factory Pattern - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Factory Pattern written May 14th, 2015 The Abstract Factory Pattern entails implementing a class solely responsible for creating concrete objects &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/05/14/factory-pattern">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Factory Pattern</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+<time class='entry-date' datetime='2015-05-14T16:32:02-05:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
+          
+
+
+        </div>
+        <p>The Abstract Factory Pattern entails implementing a class solely responsible for creating concrete objects that conform to an abstract interface.<!--more--> Since concrete classes have the potential to be very volatile, depending upon them often leads to a headache. Modules containing the <code>new</code> keyword all over the place smell of rigidity. However, in order to build a program, objects need to be initialized somewhere in the code. By isolating the unstable dependencies, we can uncouple them from the rest of the code and prevent modifications from having unintended effects in other areas of the program. Concrete classes have to be created somewhere in a program, but they do not have to be directly depended upon.The Abstract Factory Pattern helps to accomplish this uncoupling by creating a factory class to initialize concrete classes adhering to a common interface. Using a Factory Implementation class allows for dependencies on abstractions while still creating the necessary concrete classes.</p>
+
+<h3>Handling HTTP Requests</h3>
+
+<p>Lets consider the following example. An HTTP server is responsible for receiving and sending messages to clients. Suppose we want to build our own server capable of responding to GET request messages and POST request messages. Both types of requests are handled in a similar manner, but slight differences exist in their respective handling details. We can use a <code>RequestHandlerFactoryImplementation</code> to contain the GetRequestHandler and PostRequestHandler initializations.</p>
+
+<p>In order to ensure the Open-Closed Priniciple is followed, a layer of abstraction can be placed upon the RequestHandlerFactoryImplementation by defining a RequestHandlerFactory interface with a &ldquo;make&rdquo; method that accepts a request method string.</p>
+
+<div style="text-align: center"><img src="/images/factory_pattern.png" /></div>
+
+
+<p>This way, if the requirements of our server change to include other types of requests (such as PUT and DELETE requests), this change is isolated from the server since the factory interface and the RequestHandler interface will still remain the same.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class RequestHandlerFactory implements HandlerFactory {
+</span><span class='line'>    public RequestHandler make(String requestMethod) throws Exception {
+</span><span class='line'>        if (requestMethod.equals("GET"))
+</span><span class='line'>            return new GetRequestHandler(new GetResponseBuilder());
+</span><span class='line'>        else if (requestMethod.equals("POST"))
+</span><span class='line'>            return new PostRequestHandler();
+</span><span class='line'>        else if (requestMethod.equals("PUT"))
+</span><span class='line'>            return new PutRequestHandler();
+</span><span class='line'>        else if (requestMethod.equals("OPTIONS"))
+</span><span class='line'>            return new OptionsRequestHandler();
+</span><span class='line'>        else
+</span><span class='line'>            throw new Exception("RequestHandlerFactory cannot create handler for " + requestMethod + " request");
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>public interface HandlerFactory {
+</span><span class='line'>    void make(String requestMethod);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SOLID</h3>
+
+<p>This use of the abstract factory pattern has created code that adheres to both the Dependency Inversion Principle and the Open-Closed Principle.</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/05/01/starting-a-java-web-server/" title="Previous Post: Starting a Java Web Server">&laquo; Previous: Starting a Java Web Server</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
