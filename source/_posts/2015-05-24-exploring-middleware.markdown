@@ -6,7 +6,7 @@ comments: true
 categories:
 ---
 
-Middleware is software used to connect various components necessary for an application. Using a specific middleware to bridge the gap between an application server and an application/framework provides a layer of abstraction that allows many frameworks to work easily with many servers.
+Middleware is a term used to refer to software that connects various components necessary for an application. This concept can be useful for uncoupling components of an application. This post will explore the usage of middleware within a web application. Using a specific middleware to bridge the gap between an application server and an application/framework provides a layer of abstraction which allows many frameworks to easily configure with many servers.
 <!--more-->
 
 ### Behind the scenes of sending an HTTP Request
