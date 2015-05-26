@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-05-26T16:21:36-05:00</updated>
+  <updated>2015-05-26T17:51:54-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -39,7 +39,7 @@
 
 <h3>Rack</h3>
 
-<p>Rack underlies the Ruby on Rails framework, as well as Sinata. It provides adapters for many popular web servers and essentially bridges the gap between web servers and applications. A Rack Application must respond to at least one method, which is a #call method that accepts a hash as a variable. Below is a simple example of a Rack app:</p>
+<p>Rack underlies the Ruby on Rails framework, as well as Sinatra. It provides adapters for many popular web servers and essentially bridges the gap between web servers and applications. A Rack Application must respond to at least one method, which is a #call method that accepts a hash as a variable. Below is a simple example of a Rack app:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1004,7 +1004,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#98;&#x6f;&#x62;&#x40;&#x74;&#x65;&#115;&#x74;&#46;&#x63;&#x6f;&#109;">&#98;&#x6f;&#x62;&#64;&#x74;&#101;&#x73;&#x74;&#46;&#x63;&#x6f;&#109;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x62;&#x6f;&#98;&#x40;&#x74;&#x65;&#115;&#x74;&#x2e;&#x63;&#x6f;&#109;">&#x62;&#x6f;&#98;&#64;&#x74;&#101;&#115;&#116;&#46;&#x63;&#111;&#x6d;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
