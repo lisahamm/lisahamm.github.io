@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Exploring Middleware - Lisa Hamm</title>
+  <meta name="author" content="Lisa Hamm">
+
+  
+  <meta name="description" content="Exploring Middleware written May 24th, 2015 Middleware is software used to connect various components necessary for an application. Using a specific &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lisahamm.github.io/blog/2015/05/24/exploring-middleware">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Lisa Hamm" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Exploring Middleware</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+<time class='entry-date' datetime='2015-05-24T11:31:07-05:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span></time>
+          
+
+
+        </div>
+        <p>Middleware is software used to connect various components necessary for an application. Using a specific middleware to bridge the gap between an application server and an application/framework provides a layer of abstraction that allows many frameworks to work easily with many servers.</p>
+
+<!--more-->
+
+
+<h3>Behind the scenes of sending an HTTP Request</h3>
+
+<p>When a user opens up a browser, types in a website&rsquo;s address, and hits the enter key, there is quite a lot happening behind the scenes in order for the requested website to appear on the user&rsquo;s computer. First, when the user enters a URL in a browser, this is actually sending an HTTP request to the corresponding application server. The application server implements the HTTP protocol, which is the universal protocol underpinning the internet (this provides a consistent format for clients and servers to correspond). The application server&rsquo;s role begins with listening for incoming client connection requests. When the server receives and accepts an incoming client connection request, it then reads in the HTTP request sent by the client. The request then needs to be processed in order for the server to send the appropriate HTTP response message to the client. The response sent by the server is responsible for getting the requested website content back to the user&rsquo;s browser.</p>
+
+<p>The above description glosses over the &ldquo;processing&rdquo; that occurs between when the raw HTTP request is read by the server and when the server sends the HTTP response to the client. What exactly does this processing entail? The processing typically includes actions such as parsing, logging, and routing the request to the portion of the web app with the knowledge of how to handle the specific request (i.e. what type of content to be rendered by the browser, how to save form data, etc.).</p>
+
+<h3>Middleware</h3>
+
+<p>Where and when does middleware come into play? As its name suggests, middleware encompasess the processing of an HTTP request between two server-side points: the I/O channels (where requests are received as input and responses are sent as output) and the app-specific route handling. Middleware is often responsible for parsing the HTTP requests and logging information about these requests.</p>
+
+<h3>Benefits of Middleware</h3>
+
+<p>Middleware provides the benefit of modularity among the many components powering web applications on the server-side. Additionally, this also eliminates dependencies between the components. To exemplify, lets examine <a href="https://github.com/rack/rack">Rack</a>, a popular middleware used by Ruby web apps.</p>
+
+<h3>Rack</h3>
+
+<p>Rack underlies the popular Ruby on Rails framework and also Sinata. It provides adapters for many popular webservers and essentially bridges the gap between webservers and applications. A Rack Application must respond to at least one method, which is a #call method that accepts a hash as a variable. Below is a simple example of a Rack app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RackApp</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">[</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">},</span> <span class="o">[</span><span class="s2">&quot;Hello world!&quot;</span><span class="o">]]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Rack middleware is a class that is initialized with another Rack application and responds to #call(env). Below is a simple example demonstrating the manipulation of the env hash:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RackMiddleware</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># Set PATH_INFO to always be &quot;/hello_world&quot;</span>
+</span><span class='line'>    <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;/hello_world&#39;</span>
+</span><span class='line'>    <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Suppose a developer is in charge of building and deploying a Ruby application. At the beginning of the project, the developer decides the web application will be a Rack application and Rack middleware will be used with a supported server. The developer reviews all of the supported servers A, B, C, and D and selects server D since it was the fastest server that met the application&rsquo;s needs. Down the road, a new server (server E) is released, which is documented to be twice as fast as Server D (i.e. <a href="http://www.rubyraptor.org/">Phusion Passenger 5</a>). Given the modularity created by the decision to use Rack, the developer is able to swap out server D with ease, replacing it with Server E. This change would simply require the use of a Rack server handler specific to server E instead of server D. No other changes would be necessary. Additionally, since the application code is completely uncoupled from the server, the application will not experience any side effects from replacing the application server.</p>
+
+<p>The diagram below is from a <a href="http://www.rubyraptor.org/how-we-made-raptor-up-to-4x-faster-than-unicorn-and-up-to-2x-faster-than-puma-torquebox/">Ruby Raptor blog post</a> and does a great job illustrating this.</p>
+
+<div style="text-align: center"><img src="/images/rack.png" /></div>
+
+
+<h3>Building a server</h3>
+
+<p>I am currently implementing my own HTTP server from scratch in Java, which is what led me to learning about middleware. Before I started this project, I had no idea what Rack was doing behind the scenes in Ruby web apps. Writing my own server has helped me gain a great deal of insight into what is really going on &ldquo;under the hood&rdquo; in frameworks such as Ruby on Rails and Sinatra. I think this is a great personal project for developers who have a surface understanding of web app development, but might not have taken a deep dive into the HTTP protocol.  &ldquo;I hear and I forget. I see and I remember. I do and I understand.&rdquo; -Confucius</p>
+
+
+        <hr class="divider-short"/>
+
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2015/05/14/factory-pattern/" title="Previous Post: Factory Pattern">&laquo; Previous: Factory Pattern</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/lisahamm11"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/lisahamm"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+    
+  </body>
+</html>
