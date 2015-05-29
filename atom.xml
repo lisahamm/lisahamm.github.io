@@ -4,7 +4,7 @@
   <title><![CDATA[Lisa Hamm]]></title>
   <link href="http://lisahamm.github.io/atom.xml" rel="self"/>
   <link href="http://lisahamm.github.io/"/>
-  <updated>2015-05-29T12:25:04-05:00</updated>
+  <updated>2015-05-29T13:50:36-05:00</updated>
   <id>http://lisahamm.github.io/</id>
   <author>
     <name><![CDATA[Lisa Hamm]]></name>
@@ -26,32 +26,25 @@
 
 <h3>Principles of Package Cohesion</h3>
 
-<ol>
-<li> Reuse-Release Equivalence Principle (REP)
-This principle states that any package created for reuse must be released and tracked. Incorporating unmaintained packages into a project often results in a headache. When releasing a &ldquo;reusable&rdquo; package, the developer(s) must be sure to implement a tracking system and also offer support for any reusers of the package. Because of this, all classes in reusable package must be reusable. If any class is not reusable, the package in which it resides is not actually a reusable package.</li>
-<li> Common-Reuse Principle (CRP)
-This principle provides guidance on which classes should not be grouped together in a package. The principle essentially states if you reuse a single class from a package, you must reuse all classes in that package. There is no sense of depending on a package unless you depend on its entirety.</li>
-<li> Common-Closure Principle (CCP)
-This principle states changes impacting a package affect all classes within the package and no other packages. Think SRP (Single Responsibility Principle) but for packages.</li>
-</ol>
-
+<p>(1) Reuse-Release Equivalence Principle (REP)
+    This principle states that any package created for reuse must be released and tracked. Incorporating unmaintained packages into a project often results in a headache. When releasing a &ldquo;reusable&rdquo; package, the developer(s) must be sure to implement a tracking system and also offer support for any reusers of the package. Because of this, all classes in reusable package must be reusable. If any class is not reusable, the package in which it resides is not actually a reusable package.<br>
+(2) Common-Reuse Principle (CRP)
+    This principle provides guidance on which classes should not be grouped together in a package. The principle essentially states if you reuse a single class from a package, you must reuse all classes in that package. There is no sense of depending on a package unless you depend on its entirety.<br>
+(3) Common-Closure Principle (CCP)
+    This principle states changes impacting a package affect all classes within the package and no other packages. Think SRP (Single Responsibility Principle) but for packages.<br></p>
 
 <h3>Principles of Package Coupling</h3>
 
-<ol>
-<li> Acyclic-Dependencies Principle (ADP)
-This principle states cycles in the package-dependency graph should not be allowed. Applications should be divided into releasable packages in order to prevent changes in one part of an application from breaking components elsewhere in the application. In large scale applications, this is especially important in order to maintain stability with the application. Teams should check out the code, make changes, and then release newer versions of packages. This way, all other teams will not be affected by changes until they make the conscious decision to begin using the new release.</li>
-<li> Stable-Dependencies Principle (SDP)
-This principle tells us to depend in the direction of stability. Before reading this chapter, I was familiar with the concept at a class-level, but the idea also holds true within the context of package design. When following package design principles, some packages will be stable, while others will be volatile. When a package is expected to be volatile, packages that are hard to change should not be depending on it.</li>
-<li> Stable-Abstractions Principle (SAP)
-This principle states a package should be as abstract as it is stable. Stability within a package requires extensibility and reusability. Abstract classes lend themselves to code with these qualities. Thus, if a package is designed to be stable, it will contain abstract classes. This principle in conjunction with the Stable-Dependencies Principle can be thought of as the Dependency-Inversion Principle, but within the context of packages.</li>
-</ol>
-
+<p>(4) Acyclic-Dependencies Principle (ADP)
+    This principle states cycles in the package-dependency graph should not be allowed. Applications should be divided into releasable packages in order to prevent changes in one part of an application from breaking components elsewhere in the application. In large scale applications, this is especially important in order to maintain stability with the application. Teams should check out the code, make changes, and then release newer versions of packages. This way, all other teams will not be affected by changes until they make the conscious decision to begin using the new release.<br>
+(5) Stable-Dependencies Principle (SDP)
+    This principle tells us to depend in the direction of stability. Before reading this chapter, I was familiar with the concept at a class-level, but the idea also holds true within the context of package design. When following package design principles, some packages will be stable, while others will be volatile. When a package is expected to be volatile, packages that are hard to change should not be depending on it.<br>
+(6) Stable-Abstractions Principle (SAP)
+    This principle states a package should be as abstract as it is stable. Stability within a package requires extensibility and reusability. Abstract classes lend themselves to code with these qualities. Thus, if a package is designed to be stable, it will contain abstract classes. This principle in conjunction with the Stable-Dependencies Principle can be thought of as the Dependency-Inversion Principle, but within the context of packages.<br></p>
 
 <h3>Conclusion</h3>
 
-<pre><code>Package design principles are very much aligned with the SOLID design principles. These six principles help to govern the design of higher level components in an application. Reading this chapter has gotten me thinking about how to apply this in my own work. In my current HTTP server project, I have conceptually been thinking about it as three components, which I now feel could make up three respective packages within the overarching project. First, the actual server required for connecting with clients and reading/writing HTTP messages to/from sockets. Second, the middleware component responsible for manipulating data in the same way for incoming requests and outgoing responses. Third, the actual application handlers/controllers that govern the handling of specific request routes
-</code></pre>
+<p>Package design principles are very much aligned with the SOLID design principles. These six principles help to govern the design of higher level components in an application. Reading this chapter has gotten me thinking about how to apply this in my own work. In my current HTTP server project, I have conceptually been thinking about it as three components, which I now feel could make up three respective packages within the overarching project. First, the actual server required for connecting with clients and reading/writing HTTP messages to/from sockets. Second, the middleware component responsible for manipulating data in the same way for incoming requests and outgoing responses. Third, the actual application handlers/controllers that govern the handling of specific request routes</p>
 ]]></content>
   </entry>
   
@@ -1046,7 +1039,7 @@ This principle states a package should be as abstract as it is stable. Stability
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO table_name (column_name) VALUES('data value');</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x62;&#x6f;&#x62;&#64;&#116;&#x65;&#x73;&#x74;&#x2e;&#x63;&#x6f;&#109;">&#x62;&#111;&#98;&#64;&#x74;&#101;&#x73;&#x74;&#46;&#x63;&#x6f;&#109;</a>&rdquo;:</p>
+<p>Lets add some data to the &ldquo;test&rdquo; table for someone by the name of &ldquo;Bob&rdquo; with an email address of &ldquo;<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x62;&#111;&#x62;&#64;&#116;&#x65;&#115;&#x74;&#x2e;&#99;&#x6f;&#109;">&#98;&#111;&#98;&#64;&#x74;&#101;&#x73;&#116;&#x2e;&#x63;&#x6f;&#109;</a>&rdquo;:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>INSERT INTO test (name, email) VALUES('Bob', 'bob@test.com');</span></code></pre></td></tr></table></div></figure>
