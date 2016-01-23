@@ -17,7 +17,7 @@ The above description glosses over the "processing" that occurs between when the
 
 ### Middleware
 
-Where and when does middleware come into play? As its name suggests, middleware encompasess the processing of an HTTP request between two server-side points: the I/O channels (where requests are received as input and responses are sent as output) and the app-specific route handling. Middleware is often responsible for parsing the HTTP requests and logging information about these requests.
+Where and when does middleware come into play? As its name suggests, middleware encompasses the processing of an HTTP request between two server-side points: the I/O channels (where requests are received as input and responses are sent as output) and the app-specific route handling. Middleware is often responsible for parsing the HTTP requests and logging information about these requests.
 
 ### Benefits of Middleware
 
@@ -25,7 +25,7 @@ Middleware provides the benefit of modularity among the many components powering
 
 ### Rack
 
-Rack underlies the popular Ruby on Rails framework and also Sinata. It provides adapters for many popular webservers and essentially bridges the gap between webservers and applications. A Rack Application must respond to at least one method, which is a #call method that accepts a hash as a variable. Below is a simple example of a Rack app:
+Rack underlies the Ruby on Rails framework, as well as Sinatra. It provides adapters for many popular web servers and essentially bridges the gap between web servers and applications. A Rack Application must respond to at least one method, which is a #call method that accepts a hash as a variable. Below is a simple example of a Rack app:
 
 ```ruby
 class RackApp
@@ -50,7 +50,6 @@ class RackMiddleware
   end
 end
 ```
-
 
 Suppose a developer is in charge of building and deploying a Ruby application. At the beginning of the project, the developer decides the web application will be a Rack application and Rack middleware will be used with a supported server. The developer reviews all of the supported servers A, B, C, and D and selects server D since it was the fastest server that met the application's needs. Down the road, a new server (server E) is released, which is documented to be twice as fast as Server D (i.e. [Phusion Passenger 5](http://www.rubyraptor.org/)). Given the modularity created by the decision to use Rack, the developer is able to swap out server D with ease, replacing it with Server E. This change would simply require the use of a Rack server handler specific to server E instead of server D. No other changes would be necessary. Additionally, since the application code is completely uncoupled from the server, the application will not experience any side effects from replacing the application server.
 

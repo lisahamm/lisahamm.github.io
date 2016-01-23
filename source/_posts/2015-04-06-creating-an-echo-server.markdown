@@ -6,7 +6,7 @@ comments: true
 categories:
 ---
 
-One of the projects 8th Light has its residents complete is building a web server. This week, I started working on a couple of programs to ease into the world of web servers.<!--more--> The first is a simple Echo Server program that will say "Hello" upon connection and repeat all of the messages sent to it by the client. Subsequently, I will build upon the program to create a chat server that allows multiple connections. When one person enters text, everyone connected to the server will see it.
+One of the projects 8th Light residents complete is a Java HTTP server. This week, I started working on a couple of programs to ease into the world of web servers.<!--more--> The first is a simple Echo Server program that will say "Hello" upon connection and repeat all of the messages sent to it by the client. Subsequently, I will build upon the program to create a chat server that allows multiple connections. When one person enters text, everyone connected to the server will see it.
 
 I have not written any Java code for some time now, so I began by downloading [IntelliJ](https://www.jetbrains.com/idea/download/) which seems to be the Java IDE of choice at 8th Light. Next, I began reading about the Transmission Control Protocl (TCP) and sockets. [Oracle's Java tutorials](https://docs.oracle.com/javase/tutorial/networking/sockets/index.html) proved to be a useful resource in learning about both. The rest of this post is an overview of what I learned from the tutorial, and my experience creating, running, and connecting to an Echo Server.
 

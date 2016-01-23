@@ -8,3 +8,6 @@ published: false
 ---
 
 "It has been said that data is the new oil." -Seven Databases in Seven Weeks
+
+Removing a column:
+ALTER TABLE games DROP COLUMN moves;
